@@ -137,6 +137,149 @@ export default function Home() {
             </div>
         </div>
       </section>
+
+      {/* --- SECTION PROJETS (PORTFOLIO) --- */}
+      <section className="relative z-10 py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          
+          {/* Titre de section */}
+          <div className="mb-20 space-y-4">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Projets Sélectionnés</h2>
+            <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full" />
+            <p className="text-gray-400 max-w-xl text-lg">
+              Une sélection de projets techniques et créatifs démontrant ma capacité à transformer des problèmes complexes en interfaces élégantes.
+            </p>
+          </div>
+
+          {/* Liste des projets */}
+          <div className="space-y-32">
+            
+            {/* PROJET 1 : WEB & AI */}
+            <div className="group grid lg:grid-cols-2 gap-12 items-center">
+              {/* Image à gauche */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="relative rounded-3xl overflow-hidden border border-white/10 bg-gray-900 aspect-video shadow-2xl group-hover:shadow-purple-900/20 transition-all duration-500"
+              >
+                <div className="absolute inset-0 bg-purple-500/10 mix-blend-overlay z-10" />
+                <Image 
+                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop" 
+                  alt="Nexus AI Dashboard"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </motion.div>
+              
+              {/* Contenu à droite */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 text-purple-400 font-mono text-sm">
+                  <span>01.</span>
+                  <span className="px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10">SaaS Intelligence Artificielle</span>
+                </div>
+                <h3 className="text-3xl font-bold">Nexus AI Analytics</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Une plateforme intelligente qui agrège les données d'entreprise pour prédire les tendances de vente. Utilisation de Python pour le modèle de prédiction et Next.js pour une interface temps réel ultra-rapide.
+                </p>
+                <div className="flex flex-wrap gap-2 text-sm text-gray-300">
+                  {['Next.js 14', 'Python FastAPI', 'OpenAI API', 'Tailwind'].map(tag => (
+                    <span key={tag} className="px-3 py-1 bg-white/5 rounded-md border border-white/5">{tag}</span>
+                  ))}
+                </div>
+                <div className="pt-4 flex gap-4">
+                  <button className="text-white hover:text-purple-400 font-medium flex items-center gap-2 transition-colors">
+                    Voir la démo <ArrowRight size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* PROJET 2 : MOBILE (Inversé) */}
+            <div className="group grid lg:grid-cols-2 gap-12 items-center">
+              {/* Contenu à gauche (sur Desktop) */}
+              <div className="space-y-6 order-2 lg:order-1">
+                <div className="flex items-center gap-3 text-teal-400 font-mono text-sm">
+                  <span>02.</span>
+                  <span className="px-3 py-1 rounded-full border border-teal-500/30 bg-teal-500/10">Application Mobile</span>
+                </div>
+                <h3 className="text-3xl font-bold">KashFlow Finance</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Une application de gestion financière personnelle axée sur la simplicité. Architecture "Clean" avec Flutter garantissant 60fps constants sur iOS et Android. Synchronisation bancaire sécurisée.
+                </p>
+                <div className="flex flex-wrap gap-2 text-sm text-gray-300">
+                  {['Flutter', 'Dart', 'Firebase Auth', 'Clean Architecture'].map(tag => (
+                    <span key={tag} className="px-3 py-1 bg-white/5 rounded-md border border-white/5">{tag}</span>
+                  ))}
+                </div>
+                <div className="pt-4 flex gap-4">
+                  <button className="text-white hover:text-teal-400 font-medium flex items-center gap-2 transition-colors">
+                    Voir l'étude de cas <ArrowRight size={16} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Image à droite */}
+              <motion.div 
+                 initial={{ opacity: 0, y: 20 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 className="relative rounded-3xl overflow-hidden border border-white/10 bg-gray-900 aspect-video shadow-2xl group-hover:shadow-teal-900/20 transition-all duration-500 order-1 lg:order-2"
+              >
+                <div className="absolute inset-0 bg-teal-500/10 mix-blend-overlay z-10" />
+                <Image 
+                  src="https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=1200&auto=format&fit=crop" 
+                  alt="KashFlow App"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </motion.div>
+            </div>
+
+            {/* PROJET 3 : E-COMMERCE */}
+            <div className="group grid lg:grid-cols-2 gap-12 items-center">
+              {/* Image à gauche */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="relative rounded-3xl overflow-hidden border border-white/10 bg-gray-900 aspect-video shadow-2xl group-hover:shadow-pink-900/20 transition-all duration-500"
+              >
+                <div className="absolute inset-0 bg-pink-500/10 mix-blend-overlay z-10" />
+                <Image 
+                  src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop" 
+                  alt="Aura Fashion"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </motion.div>
+              
+              {/* Contenu à droite */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 text-pink-400 font-mono text-sm">
+                  <span>03.</span>
+                  <span className="px-3 py-1 rounded-full border border-pink-500/30 bg-pink-500/10">E-Commerce & Design</span>
+                </div>
+                <h3 className="text-3xl font-bold">Aura Luxury</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Refonte complète de l'expérience utilisateur pour une marque de luxe. Focus sur les micro-interactions, les animations fluides et une conversion optimisée via Stripe.
+                </p>
+                <div className="flex flex-wrap gap-2 text-sm text-gray-300">
+                  {['React', 'Framer Motion', 'Stripe', 'Node.js'].map(tag => (
+                    <span key={tag} className="px-3 py-1 bg-white/5 rounded-md border border-white/5">{tag}</span>
+                  ))}
+                </div>
+                <div className="pt-4 flex gap-4">
+                  <button className="text-white hover:text-pink-400 font-medium flex items-center gap-2 transition-colors">
+                    Visiter le site <ArrowRight size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
