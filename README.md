@@ -16,6 +16,7 @@ npm run build    # static site in out/, then the dead-link check
 ## Where things live
 
 - `src/content/profile.ts`: email, GitHub, LinkedIn, CV path. An empty value hides every link that uses it.
+- `public/cv/Josue-Kristo-CV.pdf`: the downloadable CV. Replace the file to update it; if it is removed, the download button disappears at the next build.
 - `src/content/copy.ts`: interface text, FR and EN.
 - `src/content/data.ts`: services, skills (with their icon), the three case-study projects, other projects, method, timeline, certifications.
 - `src/content/case-studies.ts`: case-study pages. Missing facts are `todo` fields.
@@ -27,7 +28,6 @@ npm run build    # static site in out/, then the dead-link check
 
 ## To complete
 
-- **CV:** add a public PDF at `public/cv/Josue-Kristo-CV.pdf` (no phone number, references or family status). The download button appears automatically at the next build.
 - **Case studies:** fill the `todo` fields in `src/content/case-studies.ts`.
 - **Repositories:** set `repoUrl` for MedGuard and the CV extraction project in `src/content/data.ts` if the code is public.
 - **Other projects:** missing years (AI and personal projects) and technologies in `OTHER_PROJECTS`.

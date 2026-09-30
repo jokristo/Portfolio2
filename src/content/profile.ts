@@ -3,8 +3,7 @@ export const EMAIL: string = "josuekristo5@gmail.com";
 export const GITHUB_URL: string = "https://github.com/jokristo";
 export const GITHUB_HANDLE: string = "@jokristo";
 export const LINKEDIN_URL: string = "https://www.linkedin.com/in/josue-kristo/";
-// TODO: add a public version of the CV (no phone number, references or personal details) at public/cv/Josue-Kristo-CV.pdf.
-// The download button stays hidden until that file exists (checked at build time).
+// The download button is shown only while this file exists in public/ (checked at build time).
 export const CV_PATH: string = "/cv/Josue-Kristo-CV.pdf";
 
 export type SocialLink = { id: "github" | "linkedin" | "email"; label: string; handle: string; href: string; external: boolean };
