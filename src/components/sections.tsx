@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { CATS, CERTS, EDU, FILTERS, NAV_IDS, PROJECTS, SERVICES, SKILLS, SME, STEPS, TIMELINE, TITLE, type Cat, type Project } from "@/content/data";
+import { CASE_PROJECTS, CATS, CERTS, EDU, OTHER_GROUPS, OTHER_PROJECTS, SERVICES, SKILLS, SME, STEPS, TIMELINE, TITLE, type Meta as MetaT } from "@/content/data";
 import { pick } from "@/content/copy";
 import { CV_PATH, EMAIL, GITHUB_HANDLE, GITHUB_URL, LINKEDIN_URL } from "@/content/profile";
-import { Band, BandVertical, BrandIcon, C, CardFill, ColumnBase, ColumnRed, Corners, Ecg, LinkedInIcon, Lock, MailIcon, SERVICE_ICONS, WovenFrame } from "./kuba";
-import { useIsMobile, useLang } from "./lang";
+import { Band, BandVertical, BrandIcon, C, CardFill, ColumnBase, ColumnRed, Corners, LinkedInIcon, Lock, MailIcon, SERVICE_ICONS, WovenFrame } from "./kuba";
+import { useHref, useIsMobile, useLang } from "./lang";
+import { ProjectVisual } from "./visuals";
 import { submitContact } from "@/lib/contact";
 
-function SectionHead({ id, title, lede }: { id?: string; title: string; lede?: string }) {
+export function SectionHead({ id, title, lede }: { id?: string; title: string; lede?: string }) {
   return (
     <header className="section-head">
       <h2 id={id} className="h2">{title}</h2>
@@ -18,7 +19,7 @@ function SectionHead({ id, title, lede }: { id?: string; title: string; lede?: s
 }
 
 /** Role or context in bold, then organisation and year on a secondary line. */
-export function Meta({ meta }: { meta: Project["meta"] }) {
+export function Meta({ meta }: { meta: MetaT }) {
   const { lang } = useLang();
   const primary = meta.role ?? meta.context;
   const secondary = [meta.org, meta.year].filter(Boolean);
@@ -235,144 +236,67 @@ export function Skills() {
 }
 
 /* ── Work ────────────────────────────────────────────────────────────── */
-function HrVisual() {
-  const { t } = useLang();
-  return (
-    <div aria-hidden="true" className="vis vis-hr">
-      <div className="vis-panel">
-        <span style={{ width: 26, height: 26, border: `1px solid ${C.ochre}`, transform: "rotate(45deg) scale(.7)" }} />
-        {["80%", "60%", "70%", "50%", "65%"].map((w, i) => <span key={i} className={`vis-bar${i === 2 ? " red" : ""}`} style={{ width: w }} />)}
-      </div>
-      <div className="vis-levels">
-        <span className="caption">{t.accessLevels}</span>
-        {["100%", "84%", "66%", "50%", "34%"].map((w, i) => (
-          <div key={i} className="vis-level">
-            <span className="l">N{i + 1}</span>
-            <span className="b" style={{ width: w, background: i === 1 ? C.red : C.surf }} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function MedVisual() {
-  const { t } = useLang();
-  return (
-    <div aria-hidden="true" className="vis vis-med">
-      <div className="vis-chain">
-        <div className="vis-node"><span className="vis-ring" /><span className="label">{t.bracelet}</span></div>
-        <div className="vis-wire"><span /></div>
-        <div className="vis-node"><span className="vis-box">Arduino</span><span className="label">{t.sensors}</span></div>
-        <div className="vis-wire"><span /></div>
-        <div className="vis-node"><span className="vis-box vis-dash"><span /><span /><span /><span /></span><span className="label">ThingsBoard</span></div>
-      </div>
-      <div className="vis-vitals">
-        <div className="vis-vitals-k"><span>{t.hr}</span><span>SpO₂</span><span>T°</span></div>
-        <Ecg />
-      </div>
-    </div>
-  );
-}
-
-function CvVisual() {
-  const { t } = useLang();
-  return (
-    <div aria-hidden="true" className="vis vis-cv">
-      <div className="vis-doc">
-        <span style={{ height: 8, width: "55%", background: C.dim }} />
-        <span style={{ width: "40%" }} />
-        <span className="gap" style={{ width: "90%" }} /><span style={{ width: "80%" }} /><span style={{ width: "85%" }} />
-        <span className="gap" style={{ width: "70%" }} /><span style={{ width: "88%" }} />
-        <span className="gap" style={{ width: "60%" }} /><span style={{ width: "75%" }} />
-      </div>
-      <span className="vis-to" />
-      <div className="vis-fields">
-        {t.cvFields.map((k, i) => (
-          <div key={k} className="vis-field">
-            <div className="k">{k}</div>
-            <div className="v" style={{ width: ["70%", "90%", "60%", "80%"][i] }} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ProjectCard({ p, big }: { p: Project; big: boolean }) {
-  const { t, lang } = useLang();
-  return (
-    <article className={`card proj ${big ? "big" : "small"}`}>
-      <div className="proj-vis">
-        <div className="proj-zoom" aria-hidden="true">
-          <CardFill />
-          {p.visual === "hr" && <HrVisual />}
-          {p.visual === "med" && <MedVisual />}
-          {p.visual === "cv" && <CvVisual />}
-          {!big && (
-            <div className="vis-flow">
-              {(p.v ?? []).map((v, i) => (
-                <div key={i}>
-                  {i > 0 && <span className="w" />}
-                  <span className="n">{pick(v, lang)}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        {p.conf && <span className="conf-pill"><Lock />{t.conf}</span>}
-      </div>
-      <div className="proj-body">
-        <div className="proj-cat">{pick(CATS[p.cat], lang)}</div>
-        <h3>{pick(p.title, lang)}</h3>
-        <Meta meta={p.meta} />
-        <p className="proj-desc">{pick(p.desc, lang)}</p>
-        <div className="tags">
-          {p.tags.map((tg, i) => <span key={i} className="tag">{pick(tg, lang)}</span>)}
-        </div>
-        {big ? (
-          <div className="proj-actions">
-            <a href="#" className="btn-sm">{t.caseBtn}</a>
-            {p.code && (
-              <a href={p.code} target="_blank" rel="noopener" className="btn-sm quiet">
-                <BrandIcon slug="github" size={16} color={C.raph} />
-                {t.codeBtn}
-              </a>
-            )}
-          </div>
-        ) : (
-          <a href="#" className="link-case">{t.caseBtn}</a>
-        )}
-      </div>
-    </article>
-  );
-}
-
 export function Work() {
   const { t, lang } = useLang();
-  const [filter, setFilter] = useState<Cat | "all">("all");
-  const visible = PROJECTS.filter((p) => filter === "all" || p.cat === filter);
-  const featured = visible.filter((p) => p.featured), compact = visible.filter((p) => !p.featured);
+  const href = useHref();
   return (
     <section id="work" className="work">
       <div className="wrap">
-        <div data-reveal className="work-head">
+        <div data-reveal>
           <SectionHead title={t.workT} />
-          <div role="group" aria-label={t.filterLabel} className="filters">
-            {FILTERS.map(([key, label]) => (
-              <button key={key} type="button" className="filter" aria-pressed={filter === key} onClick={() => setFilter(key)}>
-                {pick(label, lang)}
-              </button>
-            ))}
-          </div>
         </div>
-        {featured.length > 0 && (
-          <div className="featured-grid">
-            {featured.map((p) => <ProjectCard key={p.id} p={p} big />)}
-          </div>
-        )}
-        <div className="compact-grid">
-          {compact.map((p) => <ProjectCard key={p.id} p={p} big={false} />)}
+        <ol className="cases">
+          {CASE_PROJECTS.map((p) => (
+            <li key={p.slug} className="case-row">
+              <a href={href(`/realisations/${p.slug}`)} className="case-media" tabIndex={-1} aria-hidden="true">
+                <ProjectVisual kind={p.visual} />
+                {p.confidential && <span className="conf-pill"><Lock />{t.conf}</span>}
+              </a>
+              <div className="case-text">
+                <span className="eyebrow">{pick(CATS[p.cat], lang)}</span>
+                <h3><a href={href(`/realisations/${p.slug}`)}>{pick(p.title, lang)}</a></h3>
+                <Meta meta={p.meta} />
+                <p>{pick(p.summary, lang)}</p>
+                <ul className="tags" aria-label={t.techLabel}>
+                  {p.tags.map((tg, i) => <li key={i} className="tag">{pick(tg, lang)}</li>)}
+                </ul>
+                <div className="row">
+                  <a href={href(`/realisations/${p.slug}`)} className="btn-sm">{t.caseBtn}</a>
+                  {p.repoUrl && (
+                    <a href={p.repoUrl} target="_blank" rel="noopener" className="btn-sm quiet">
+                      <BrandIcon slug="github" size={16} color={C.raph} />
+                      {t.codeBtn}
+                    </a>
+                  )}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <div data-reveal className="others">
+          <h3 className="others-title">{t.othersT}</h3>
+          <table className="others-table">
+            <thead className="sr-only">
+              <tr><th scope="col">{t.colProject}</th><th scope="col">{t.colContext}</th><th scope="col">{t.colYear}</th><th scope="col">{t.colTech}</th></tr>
+            </thead>
+            {OTHER_GROUPS.map((cat) => (
+              <tbody key={cat}>
+                <tr className="others-group"><th colSpan={4} scope="colgroup">{pick(CATS[cat], lang)}</th></tr>
+                {OTHER_PROJECTS.filter((p) => p.cat === cat).map((p) => (
+                  <tr key={p.id}>
+                    <th scope="row">
+                      <span className="o-title">{pick(p.title, lang)}</span>
+                      {p.note && <span className="o-note">{pick(p.note, lang)}</span>}
+                    </th>
+                    <td className="o-context">{p.context && pick(p.context, lang)}</td>
+                    <td className="o-year">{p.year}</td>
+                    <td className="o-tech">{p.tech.map((x) => pick(x, lang)).join(", ")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            ))}
+          </table>
         </div>
       </div>
     </section>
@@ -541,27 +465,5 @@ export function Contact() {
         </div>
       </div>
     </section>
-  );
-}
-
-/* ── Footer ──────────────────────────────────────────────────────────── */
-export function Footer() {
-  const { t } = useLang();
-  return (
-    <footer className="footer">
-      <div className="footer-in">
-        <a href="#top" className="brand"><span className="brand-name">Josué Kristo</span></a>
-        <nav aria-label={t.quickLinks}>
-          {t.nav.map((label, i) => <a key={NAV_IDS[i]} href={`#${NAV_IDS[i]}`}>{label}</a>)}
-        </nav>
-        <div className="footer-social">
-          <a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a>
-          <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
-          <a href={`mailto:${EMAIL}`}>Email</a>
-          <span>© 2026 Josué Kristo</span>
-        </div>
-      </div>
-      <div aria-hidden="true" className="footer-band"><Band color={C.ochre} rupture /></div>
-    </footer>
   );
 }
