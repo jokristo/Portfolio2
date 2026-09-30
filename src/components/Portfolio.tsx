@@ -1,8 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { EMAIL, NAV_IDS, T, type Lang } from "@/lib/content";
-import { LangContext, prefersReducedMotion, useIsMobile, useLang } from "./lang";
+import { NAV_IDS } from "@/content/data";
+import { EMAIL } from "@/content/profile";
+import { LangProvider, prefersReducedMotion, useIsMobile, useLang } from "./lang";
 import { Band, C, CardFill, KubaBackground, Logo } from "./kuba";
 import { About, Contact, Footer, Hero, Journey, Marquee, Method, Services, Skills, Stats, Work } from "./sections";
 
@@ -10,26 +11,10 @@ const GLOW_OPACITY = 0.22;
 const PATTERN_OPACITY = 0.05;
 
 export default function Portfolio() {
-  const [lang, setLangState] = useState<Lang>("fr");
-  const t = T[lang];
-
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    document.documentElement.lang = l;
-    const url = new URL(window.location.href);
-    if (l === "fr") url.searchParams.delete("lang");
-    else url.searchParams.set("lang", l);
-    window.history.replaceState(null, "", url);
-  }, []);
-
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("lang") === "en") setLang("en");
-  }, [setLang]);
-
   useReveal();
 
   return (
-    <LangContext.Provider value={{ lang, t, setLang }}>
+    <LangProvider>
       <div id="top" className="page">
         <Background />
         <Header />
@@ -47,7 +32,7 @@ export default function Portfolio() {
         </main>
         <Footer />
       </div>
-    </LangContext.Provider>
+    </LangProvider>
   );
 }
 

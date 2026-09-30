@@ -1,4 +1,4 @@
-import { EMAIL } from "./content";
+import { EMAIL } from "@/content/profile";
 
 export type ContactMessage = { name: string; email: string; type: string; message: string };
 

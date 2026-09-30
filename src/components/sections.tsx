@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import {
-  CATS, CERTS, CV_URL, EDU, EMAIL, FILTERS, GITHUB, LINKEDIN, MARQUEE, NAV_IDS, PHRASES, PROJECTS, SERVICES, SKILLS, SME, SME_FOR,
-  STAT_STARTS, STAT_TARGETS, STEPS, TIMELINE, pick, type Cat, type Project,
-} from "@/lib/content";
+  CATS, CERTS, EDU, FILTERS, MARQUEE, NAV_IDS, PHRASES, PROJECTS, SERVICES, SKILLS, SME, SME_FOR,
+  STAT_STARTS, STAT_TARGETS, STEPS, TIMELINE, type Cat, type Project,
+} from "@/content/data";
+import { pick } from "@/content/copy";
+import { CV_PATH as CV_URL, EMAIL, GITHUB_URL as GITHUB, LINKEDIN_URL as LINKEDIN } from "@/content/profile";
 import {
   Band, BandVertical, BrandIcon, C, CardFill, ColumnBase, ColumnRed, Corners, Ecg, LinkedInIcon, Lock, Logo, MailIcon, Mark,
   SERVICE_ICONS, WovenFrame,
@@ -29,7 +31,6 @@ function useTypewriter() {
   useEffect(() => {
     if (reduced()) return;
     let i = 0, c = 0, del = false, tt: ReturnType<typeof setTimeout>;
-    setText("");
     const step = () => {
       const p = PHRASES[i];
       if (!del) {
@@ -44,7 +45,7 @@ function useTypewriter() {
         tt = setTimeout(step, 16);
       }
     };
-    tt = setTimeout(step, 900);
+    tt = setTimeout(() => { setText(""); step(); }, 900);
     return () => clearTimeout(tt);
   }, []);
   return text;
