@@ -7,13 +7,13 @@ const body = Source_Sans_3({ subsets: ["latin"], weight: ["400", "500", "600", "
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Josué Kristo · Senior Product Engineer & Technical Project Manager",
+  title: "Josué Kristo, Senior Product Engineer & Technical Project Manager",
   description:
-    "Je conçois des architectures logicielles robustes, je pilote leur livraison et j'y intègre l'IA, là où elle résout un vrai problème. Basé à Nairobi, originaire de la RDC.",
+    "Josué Kristo, product engineer et chef de projet IT basé à Nairobi. Architecture logicielle, pilotage de livraison et intégration de l'IA.",
   alternates: { languages: { fr: "/", en: "/?lang=en" } },
   openGraph: {
-    title: "Josué Kristo · Senior Product Engineer",
-    description: "Architectures robustes, livraison pilotée, IA intégrée là où elle résout un vrai problème.",
+    title: "Josué Kristo, Senior Product Engineer",
+    description: "Product engineer et chef de projet IT basé à Nairobi.",
     images: ["/portrait.webp"],
     locale: "fr_FR",
     alternateLocale: ["en_US"],

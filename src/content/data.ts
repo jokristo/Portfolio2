@@ -19,15 +19,6 @@ export const SME = [
   { t: b("Automatisation IA", "AI automation"), d: b("Traitement de documents, extraction de données, transcription.", "Document processing, data extraction, transcription.") },
 ];
 
-export const SME_FOR = [
-  b("Cabinets", "Law & accounting firms"),
-  b("Cliniques", "Clinics"),
-  b("Agences immobilières", "Real-estate agencies"),
-  b("Agences de voyage", "Travel agencies"),
-  b("Écoles privées", "Private schools"),
-  b("PME et startups", "SMEs & startups"),
-];
-
 type Skill = { n: Text; s?: IconSlug };
 const SK = (n: Text, s?: IconSlug): Skill => ({ n, s });
 
@@ -85,7 +76,7 @@ export const PROJECTS: Project[] = [
   {
     id: "hr", featured: true, cat: "ent", visual: "hr", conf: true,
     title: b("Refonte de Talent Pro HR", "Talent Pro HR rebuild"), meta: { role: "Lead Product Engineer", org: "Walumo", year: "2026" },
-    desc: b("Architecture reconstruite de zéro, 5 niveaux de droits d'accès. Livrée en 5 mois, là où la version précédente avait pris 3 ans.", "Architecture rebuilt from scratch, with 5 levels of access rights. Shipped in 5 months — the previous version took 3 years."),
+    desc: b("J'ai reconstruit l'architecture de zéro, avec 5 niveaux de droits d'accès. L'application a été livrée en 5 mois, contre 3 ans pour la version précédente.", "I rebuilt the architecture from scratch, with 5 levels of access rights. The application shipped in 5 months, against 3 years for the previous version."),
     tags: ["Architecture", "Next.js", "Agile"],
   },
   {
@@ -101,12 +92,12 @@ export const PROJECTS: Project[] = [
     // TODO: point to the exact repository once confirmed.
     id: "cv", featured: true, cat: "ai", visual: "cv", code: GITHUB_URL,
     title: b("Extraction d'informations depuis des CV", "Information extraction from CVs"), meta: { context: b("Projet IA", "AI project") },
-    desc: b("Analyse automatique de CV pour en extraire des informations structurées : identité, expériences, compétences, formation.", "Automatic CV parsing that turns free-form résumés into structured data: identity, experience, skills, education."),
+    desc: b("Analyse automatique de CV pour en extraire des informations structurées : identité, expériences, compétences, formation.", "Automatic CV analysis that extracts structured information: identity, experience, skills and education."),
     tags: ["NLP", "Machine Learning", b("Traitement de documents", "Document processing")],
   },
   {
     id: "ner", cat: "ai", title: b("Reconnaissance d'entités nommées", "Named-entity recognition"), meta: { context: b("Projet IA", "AI project") },
-    desc: b("Extraction automatique d’entités (noms, organisations, lieux, dates, compétences) dans des textes, appliquée aux données de candidats et aux documents professionnels.", "Automatic extraction of entities — names, organisations, places, dates, skills — from candidate data and business documents."),
+    desc: b("Extraction automatique d’entités (noms, organisations, lieux, dates, compétences) dans des textes, appliquée aux données de candidats et aux documents professionnels.", "Automatic extraction of entities (names, organisations, places, dates, skills) from candidate data and business documents."),
     tags: ["NER", "NLP"], v: [b("Personne", "Person"), b("Organisation", "Organisation"), b("Lieu", "Place")],
   },
   {
@@ -161,11 +152,11 @@ export const PROJECTS: Project[] = [
 ];
 
 export const STEPS: [Bi, Bi][] = [
-  [b("Comprendre le besoin", "Understand the need"), b("Entretiens, contraintes, objectifs mesurables : on part du problème, pas de la solution.", "Interviews, constraints, measurable goals: start from the problem, not the solution.")],
-  [b("Concevoir l'architecture", "Design the architecture"), b("Modèle de données, droits d'accès, intégrations : une base solide avant la première ligne de code.", "Data model, access rights, integrations: a solid base before the first line of code.")],
-  [b("Planifier (chemin critique)", "Plan the critical path"), b("Identifier les dépendances qui dictent le délai et les sécuriser en premier.", "Find the dependencies that set the deadline, and secure them first.")],
-  [b("Livrer en micro-sprints", "Ship in micro-sprints"), b("Des incréments courts, testables, montrés tôt et souvent.", "Short, testable increments, shown early and often.")],
-  [b("Mesurer et améliorer", "Measure and improve"), b("Retours utilisateurs et indicateurs guident l'itération suivante.", "User feedback and metrics drive the next iteration.")],
+  [b("Comprendre le besoin", "Understand the need"), b("Entretiens, contraintes et objectifs mesurables, avant toute proposition technique.", "Interviews, constraints and measurable goals, before any technical proposal.")],
+  [b("Concevoir l'architecture", "Design the architecture"), b("Modèle de données, droits d'accès et intégrations, définis avant la première ligne de code.", "Data model, access rights and integrations, settled before the first line of code.")],
+  [b("Planifier le chemin critique", "Plan the critical path"), b("J'identifie les dépendances qui fixent le délai et je les traite en premier.", "I identify the dependencies that set the deadline and handle them first.")],
+  [b("Livrer en micro-sprints", "Ship in micro-sprints"), b("Des incréments courts et testables, montrés régulièrement aux utilisateurs.", "Short, testable increments, shown to users regularly.")],
+  [b("Mesurer et améliorer", "Measure and improve"), b("Les retours des utilisateurs et les indicateurs orientent l'itération suivante.", "User feedback and metrics shape the next iteration.")],
 ];
 
 export const TIMELINE: { period: Bi; current: boolean; role: Text; org: string; place: Text }[] = [
@@ -179,13 +170,13 @@ export const TIMELINE: { period: Bi; current: boolean; role: Text; org: string; 
 
 export const CERTS: [string, string][] = [
   ["Google AI Professional Certificate", "2026"],
-  ["IT Project Management — IBM", "2026"],
+  ["IT Project Management (IBM)", "2026"],
   ["Google Project Management", "2026"],
   ["Prompt Engineering with Generative AI", "2025"],
   ["Google UX Design", "2023"],
 ];
 
-export const EDU: [Bi, string][] = [
-  [b("Master en conception des systèmes d'information", "Master's in Information Systems Design"), "UPN Kinshasa · 2024–2025"],
-  [b("Licence en mathématiques et informatique", "Bachelor's in Mathematics & Computer Science"), "UPN · 2020–2023"],
+export const EDU: [Bi, string, string][] = [
+  [b("Master en conception des systèmes d'information", "Master's in Information Systems Design"), "UPN Kinshasa", "2024–2025"],
+  [b("Licence en mathématiques et informatique", "Bachelor's in Mathematics & Computer Science"), "UPN Kinshasa", "2020–2023"],
 ];

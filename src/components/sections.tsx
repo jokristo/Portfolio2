@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { CATS, CERTS, EDU, FILTERS, NAV_IDS, PROJECTS, SERVICES, SKILLS, SME, SME_FOR, STEPS, TIMELINE, TITLE, type Cat, type Project } from "@/content/data";
+import { CATS, CERTS, EDU, FILTERS, NAV_IDS, PROJECTS, SERVICES, SKILLS, SME, STEPS, TIMELINE, TITLE, type Cat, type Project } from "@/content/data";
 import { pick } from "@/content/copy";
 import { CV_PATH, EMAIL, GITHUB_HANDLE, GITHUB_URL, LINKEDIN_URL } from "@/content/profile";
 import { Band, BandVertical, BrandIcon, C, CardFill, ColumnBase, ColumnRed, Corners, Ecg, LinkedInIcon, Lock, MailIcon, SERVICE_ICONS, WovenFrame } from "./kuba";
@@ -44,7 +44,7 @@ export function Hero() {
           <h1>
             Josué
             <br />
-            Kristo<span className="dot">.</span>
+            Kristo
           </h1>
           <p className="hero-title">{TITLE}</p>
           <p className="pitch">{t.pitch}</p>
@@ -80,7 +80,9 @@ export function About() {
       <div data-reveal className="wrap about-grid">
         <div>
           <SectionHead title={t.aboutT} />
-          <p className="about-p">{t.aboutP}</p>
+          <div className="about-p">
+            {t.aboutP.map((para, i) => <p key={i}>{para}</p>)}
+          </div>
         </div>
         <dl className="facts">
           {t.infoK.map((k, i) => (
@@ -138,9 +140,7 @@ export function Services() {
                   </li>
                 ))}
               </ul>
-              <p className="sme-for">
-                <span>{t.smeFor}</span> {SME_FOR.map((f) => pick(f, lang)).join(", ")}.
-              </p>
+              <p className="sme-for">{t.smeFor}</p>
               <a href="#contact" className="btn btn-primary">{t.smeCta}</a>
             </div>
             <figure className="chat">
@@ -464,8 +464,8 @@ export function Journey() {
             <div>
               <h3>{t.eduT}</h3>
               <ul>
-                {EDU.map(([n, s], i) => (
-                  <li key={i}><div className="edu-n">{pick(n, lang)}</div><div className="edu-s">{s}</div></li>
+                {EDU.map(([n, org, years], i) => (
+                  <li key={i}><div className="edu-n">{pick(n, lang)}</div><div className="meta-sub"><span>{org}</span><span>{years}</span></div></li>
                 ))}
               </ul>
             </div>
