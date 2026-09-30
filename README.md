@@ -1,25 +1,28 @@
-# CODING AGENTS: READ THIS FIRST
+# Josué Kristo — Portfolio
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Personal portfolio for Josué Kristo, Senior Product Engineer & Technical Project Manager. Bilingual (FR by default, EN via the header toggle or `?lang=en`). Built with Next.js (App Router, static export) and implemented from the Claude Design handoff in `project/` (see `project/HANDOFF.md` and `chats/`).
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Develop
 
-## What you should do — IMPORTANT
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # static site in out/
+npm run lint     # type-check
+```
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Structure
 
-**Read `project/Portfolio Josue Kristo.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+- `src/lib/content.ts`: all copy (FR/EN), projects, skills, timeline. Edit content here.
+- `src/components/kuba.tsx`: the Kuba motif (background field, woven portrait frame, bands, corners, logo).
+- `src/components/sections.tsx`: page sections. `Portfolio.tsx` holds the shell (background, header, mobile menu).
+- `src/app/globals.css`: design tokens, layout, hover/focus states, breakpoints and animations. Everything is disabled under `prefers-reduced-motion`.
+- `src/lib/icons.ts`: technology logos, inlined from `simple-icons` (CC0), so the page loads nothing from a CDN.
+- `public/portrait.webp`: the portrait, taken from the design's image slot.
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Still to wire up
 
-## About the design files
-
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
-
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
-
-## Bundle contents
-
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Portfolio Josue Kristo` project files (HTML prototypes, assets, components)
+- `LINKEDIN` and `CV_URL` in `src/lib/content.ts` are placeholders (`#`).
+- The "Voir l'étude de cas" buttons link to `#` until the case-study pages (`project/Etude de cas.dc.html`) are built.
+- The CV-extraction project's "Code source" button points to the GitHub profile; set the exact repository in `PROJECTS`.
+- Contact form: set `NEXT_PUBLIC_CONTACT_ENDPOINT` (e.g. a Formspree URL accepting JSON) to receive messages. Without it, the form opens the visitor's mail client with the message pre-filled.
