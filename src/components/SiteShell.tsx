@@ -6,6 +6,8 @@ import { EMAIL } from "@/content/profile";
 import { LangProvider, prefersReducedMotion, useHref, useIsMobile, useLang } from "./lang";
 import { Band, C, CardFill, KubaBackground } from "./kuba";
 import { SOCIAL_LINKS } from "@/content/profile";
+import { Menu, X } from "lucide-react";
+import { SocialIcon, UiIcon } from "./icons";
 
 const GLOW_OPACITY = 0.22;
 const PATTERN_OPACITY = 0.05;
@@ -144,14 +146,17 @@ function Header({ home }: { home: boolean }) {
               ))}
             </div>
           </nav>
+          <div className="header-social">
+            {SOCIAL_LINKS.filter((l) => l.id !== "email").map((l) => (
+              <a key={l.id} href={l.href} aria-label={l.label} className="icon-link" target="_blank" rel="noopener"><SocialIcon id={l.id} /></a>
+            ))}
+          </div>
           <LangToggle />
           <a href={sectionHref("contact")} className="header-cta">
             {t.cta}
           </a>
           <button ref={burgerRef} type="button" className="burger" onClick={() => setMenu(true)} aria-label="Menu" aria-expanded={menu} aria-controls="mobile-menu">
-            <span />
-            <span />
-            <span />
+            <UiIcon icon={Menu} />
           </button>
         </div>
       </header>
@@ -194,7 +199,7 @@ function MobileMenu({ home, onClose, onNavigate }: { home: boolean; onClose: () 
           <span className="brand-name">Josué Kristo</span>
         </a>
         <button ref={closeRef} type="button" className="menu-close" onClick={onClose} aria-label={t.close}>
-          ×
+          <UiIcon icon={X} />
         </button>
       </div>
       <div className="menu-lang">
@@ -212,6 +217,11 @@ function MobileMenu({ home, onClose, onNavigate }: { home: boolean; onClose: () 
         <a href={sectionHref("contact")} onClick={onNavigate} className="btn btn-primary">
           {t.cta}
         </a>
+        <div className="menu-social">
+          {SOCIAL_LINKS.map((l) => (
+            <a key={l.id} href={l.href} aria-label={l.label} className="icon-btn" {...(l.external ? { target: "_blank", rel: "noopener" } : {})}><SocialIcon id={l.id} /></a>
+          ))}
+        </div>
         <a href={`mailto:${EMAIL}`} className="mail">{EMAIL}</a>
       </div>
       <div className="menu-band" aria-hidden="true"><Band color={C.ochre} rupture /></div>
@@ -231,7 +241,7 @@ function Footer({ home }: { home: boolean }) {
         </nav>
         <div className="footer-social">
           {SOCIAL_LINKS.map((l) => (
-            <a key={l.id} href={l.href} {...(l.external ? { target: "_blank", rel: "noopener" } : {})}>{l.label}</a>
+            <a key={l.id} href={l.href} aria-label={l.label} className="icon-link" {...(l.external ? { target: "_blank", rel: "noopener" } : {})}><SocialIcon id={l.id} /></a>
           ))}
           <span>© 2026 Josué Kristo</span>
         </div>

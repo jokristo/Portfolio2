@@ -1,4 +1,4 @@
-import type { IconSlug } from "@/lib/icons";
+import type { BrandKey, ConceptKey, SkillIcon } from "@/components/icons";
 import { b, type Bi, type Text } from "./copy";
 
 
@@ -18,31 +18,34 @@ export const SME = [
   { t: b("Automatisation IA", "AI automation"), d: b("Traitement de documents, extraction de données, transcription.", "Document processing, data extraction, transcription.") },
 ];
 
-type Skill = { n: Text; s?: IconSlug };
-const SK = (n: Text, s?: IconSlug): Skill => ({ n, s });
+export type Skill = { n: Text; icon: SkillIcon };
+/** A skill with its official logo. */
+const SK = (n: Text, brand: BrandKey): Skill => ({ n, icon: { brand } });
+/** A skill without an official logo: shown with a plain Lucide pictogram. */
+const SC = (n: Text, concept: ConceptKey): Skill => ({ n, icon: { concept } });
 
 export const SKILLS: { c: Bi; i: Skill[] }[] = [
-  { c: b("Programmation", "Programming"), i: [SK("Python", "python"), SK("JavaScript", "javascript"), SK("TypeScript", "typescript"), SK("Dart", "dart"), SK("SQL"), SK("HTML", "html5"), SK("CSS", "css")] },
-  { c: b("Backend", "Backend"), i: [SK("Django", "django"), SK("FastAPI", "fastapi"), SK("REST APIs"), SK("PostgreSQL", "postgresql"), SK(b("Authentification & autorisation", "Authentication & authorization"))] },
+  { c: b("Programmation", "Programming"), i: [SK("Python", "python"), SK("JavaScript", "javascript"), SK("TypeScript", "typescript"), SK("Dart", "dart"), SC("SQL", "database"), SK("HTML", "html5"), SK("CSS", "css")] },
+  { c: b("Backend", "Backend"), i: [SK("Django", "django"), SK("FastAPI", "fastapi"), SC("REST APIs", "api"), SK("PostgreSQL", "postgresql"), SC(b("Authentification et autorisation", "Authentication and authorization"), "auth")] },
   { c: b("Frontend", "Frontend"), i: [SK("Next.js", "nextdotjs"), SK("React", "react"), SK("HTML5", "html5"), SK("CSS3", "css"), SK("JavaScript", "javascript"), SK("TypeScript", "typescript")] },
   { c: b("Mobile", "Mobile"), i: [SK("Flutter", "flutter"), SK("Dart", "dart"), SK("React Native", "react")] },
-  { c: b("IoT & systèmes embarqués", "IoT & embedded systems"), i: [SK("Arduino", "arduino"), SK(b("Capteurs", "Sensors")), SK("ThingsBoard"), SK("Wokwi"), SK("Proteus")] },
+  { c: b("IoT et systèmes embarqués", "IoT and embedded systems"), i: [SK("Arduino", "arduino"), SC(b("Capteurs", "Sensors"), "sensors"), SC("ThingsBoard", "dashboard"), SC("Wokwi", "chip"), SC("Proteus", "circuit")] },
   {
-    c: b("IA & automatisation", "AI & automation"),
-    i: [SK(b("Intelligence artificielle", "Artificial intelligence")), SK(b("IA générative", "Generative AI")), SK("Machine Learning"), SK("NLP"), SK("NER"), SK("Whisper / WhisperX"), SK(b("Intégration d'API d'IA", "AI API integration")), SK("Prompt Engineering")],
+    c: b("IA et automatisation", "AI and automation"),
+    i: [SC(b("Intelligence artificielle", "Artificial intelligence"), "ai"), SC(b("IA générative", "Generative AI"), "genai"), SC("Machine Learning", "ml"), SC("NLP", "nlp"), SC("NER", "ner"), SC("Whisper et WhisperX", "audio"), SC(b("Intégration d'API d'IA", "AI API integration"), "plug"), SC("Prompt engineering", "prompt")],
   },
-  { c: b("Cloud & DevOps", "Cloud & DevOps"), i: [SK("Git", "git"), SK("GitHub", "github"), SK("Render", "render"), SK("CI/CD", "githubactions"), SK(b("Déploiement cloud", "Cloud deployment"))] },
+  { c: b("Cloud et DevOps", "Cloud and DevOps"), i: [SK("Git", "git"), SK("GitHub", "github"), SK("Render", "render"), SK("CI/CD", "githubactions"), SC(b("Déploiement cloud", "Cloud deployment"), "cloud")] },
   {
     c: b("Sécurité", "Security"),
-    i: [SK(b("Sécurité des systèmes d'information", "Information-systems security")), SK(b("Sécurité applicative", "Application security")), SK(b("Architecture sécurisée", "Secure architecture")), SK("Cyber Threat Intelligence"), SK("ISO 27001")],
+    i: [SC(b("Sécurité des systèmes d'information", "Information-systems security"), "shield"), SC(b("Sécurité applicative", "Application security"), "bug"), SC(b("Architecture sécurisée", "Secure architecture"), "lock"), SC("Cyber Threat Intelligence", "radar"), SC("ISO 27001", "badge")],
   },
   {
-    c: b("Produit & gestion de projet", "Product & project management"),
-    i: [SK("Agile"), SK("Scrum"), SK(b("Développement produit", "Product development")), SK(b("Gestion de projet technique", "Technical project management")), SK(b("Architecture logicielle", "Software architecture")), SK(b("Analyse des besoins", "Requirements analysis"))],
+    c: b("Produit et gestion de projet", "Product and project management"),
+    i: [SC("Agile", "agile"), SC("Scrum", "scrum"), SC(b("Développement produit", "Product development"), "product"), SC(b("Gestion de projet technique", "Technical project management"), "gantt"), SC(b("Architecture logicielle", "Software architecture"), "architecture"), SC(b("Analyse des besoins", "Requirements analysis"), "requirements")],
   },
   {
     c: b("Outils", "Tools"),
-    i: [SK("VS Code"), SK("Postman", "postman"), SK("Microsoft 365"), SK("Google Workspace"), SK("Figma", "figma"), SK("Adobe Photoshop"), SK("Adobe Lightroom"), SK("Adobe Premiere Pro"), SK("OBS Studio", "obsstudio")],
+    i: [SC("VS Code", "editor"), SK("Postman", "postman"), SC("Microsoft 365", "suite"), SC("Google Workspace", "workspace"), SK("Figma", "figma"), SC("Adobe Photoshop", "photo"), SC("Adobe Lightroom", "lens"), SC("Adobe Premiere Pro", "video"), SK("OBS Studio", "obsstudio")],
   },
 ];
 

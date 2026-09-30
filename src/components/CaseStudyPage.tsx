@@ -3,7 +3,9 @@
 import { CASE_PROJECTS, CATS } from "@/content/data";
 import { CASE_UI, caseStudy, type CaseSection } from "@/content/case-studies";
 import { pick } from "@/content/copy";
-import { BandVertical, BrandIcon, C, Lock } from "./kuba";
+import { ArrowLeft, ArrowUpRight, Lock } from "lucide-react";
+import { BandVertical, C } from "./kuba";
+import { SocialIcon, UiIcon } from "./icons";
 import { useHref, useLang } from "./lang";
 import { SiteShell } from "./SiteShell";
 import { ProjectVisual } from "./visuals";
@@ -45,19 +47,20 @@ function CaseStudy({ slug }: { slug: string }) {
   return (
     <main className="cs">
       <div className="wrap">
-        <a href={`${href("/")}#work`} className="cs-back">{ui.back}</a>
+        <a href={`${href("/")}#work`} className="cs-back"><UiIcon icon={ArrowLeft} />{ui.back}</a>
 
         <header className="cs-head">
           <span className="eyebrow">{pick(CATS[p.cat], lang)}</span>
           <h1>{pick(p.title, lang)}</h1>
           <p className="cs-summary">{pick(p.summary, lang)}</p>
           <div className="cs-badges">
-            {p.confidential && <span className="conf-pill static"><Lock />{t.conf}</span>}
+            {p.confidential && <span className="conf-pill static"><UiIcon icon={Lock} />{t.conf}</span>}
             {cs.illustrativeNote && <span className="small">{ui.illustrative}</span>}
             {p.repoUrl && (
               <a href={p.repoUrl} target="_blank" rel="noopener" className="btn-sm quiet">
-                <BrandIcon slug="github" size={16} color={C.raph} />
+                <SocialIcon id="github" />
                 {t.codeBtn}
+                <UiIcon icon={ArrowUpRight} className="ext" />
               </a>
             )}
           </div>
@@ -124,7 +127,7 @@ function Section({ sec }: { sec: CaseSection }) {
             <ol className="cs-steps">
               {sec.steps.map((st, i) => (
                 <li key={i}>
-                  <span className="step-node" aria-hidden="true" />
+                  <span className="cs-node" aria-hidden="true" />
                   <div>
                     <h3>{pick(st.title, lang)}</h3>
                     {st.text && <p>{pick(st.text, lang)}</p>}

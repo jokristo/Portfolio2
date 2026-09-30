@@ -4,7 +4,9 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { CASE_PROJECTS, CATS, CERTS, EDU, OTHER_GROUPS, OTHER_PROJECTS, SERVICES, SKILLS, SME, STEPS, TIMELINE, TITLE, type Meta as MetaT } from "@/content/data";
 import { pick } from "@/content/copy";
 import { CV_PATH, EMAIL, SOCIAL_LINKS } from "@/content/profile";
-import { Band, BandVertical, BrandIcon, C, CardFill, ColumnBase, ColumnRed, Corners, LinkedInIcon, Lock, MailIcon, SERVICE_ICONS, WovenFrame } from "./kuba";
+import { ArrowUpRight, Download, Lock } from "lucide-react";
+import { Band, BandVertical, C, CardFill, ColumnBase, ColumnRed, Corners, WovenFrame } from "./kuba";
+import { SERVICE_ICONS, STEP_ICONS, SkillGlyph, SocialIcon, UiIcon } from "./icons";
 import { useHref, useIsMobile, useLang } from "./lang";
 import { ProjectVisual } from "./visuals";
 import { submitContact } from "@/lib/contact";
@@ -51,12 +53,12 @@ export function Hero({ cvAvailable }: { cvAvailable: boolean }) {
           <p className="pitch">{t.pitch}</p>
           <div className="row">
             <a href="#work" className="btn btn-primary">{t.btnWork}</a>
-            {cvAvailable && <a href={CV_PATH} className="btn btn-ghost" download>{t.btnCv}</a>}
+            {cvAvailable && <a href={CV_PATH} className="btn btn-ghost" download><UiIcon icon={Download} />{t.btnCv}</a>}
           </div>
           <div className="socials">
             {SOCIAL_LINKS.map((l) => (
               <a key={l.id} href={l.href} aria-label={l.label} className="icon-btn" {...(l.external ? { target: "_blank", rel: "noopener" } : {})}>
-                {l.id === "github" ? <BrandIcon slug="github" size={18} color={C.raph} /> : l.id === "linkedin" ? <LinkedInIcon /> : <MailIcon />}
+                <SocialIcon id={l.id} />
               </a>
             ))}
           </div>
@@ -114,7 +116,7 @@ export function Services() {
           <ul className="svc-list">
             {SERVICES.map((sv, i) => (
               <li key={i} className="svc">
-                <span className="svc-icon" aria-hidden="true">{SERVICE_ICONS[i]}</span>
+                <span className="svc-icon"><UiIcon icon={SERVICE_ICONS[i]} /></span>
                 <div>
                   <h4>{pick(sv.t, lang)}</h4>
                   <p>{pick(sv.d, lang)}</p>
@@ -169,9 +171,6 @@ export function Services() {
 }
 
 /* ── Skills: vertical tabs (horizontal scroller on mobile) + tile grid ─ */
-const monogram = (name: string) =>
-  name.replace(/[^A-Za-z0-9À-ÿ ]/g, "").split(" ").filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase() || name.slice(0, 2);
-
 export function Skills() {
   const { t, lang } = useLang();
   const [tab, setTab] = useState(0);
@@ -223,9 +222,7 @@ export function Skills() {
               const name = pick(it.n, lang);
               return (
                 <div key={name} className="tile">
-                  <div className="tile-logo" aria-hidden="true">
-                    {it.s ? <BrandIcon slug={it.s} size={28} color={C.raph} /> : <div className="tile-mono"><span>{monogram(name)}</span></div>}
-                  </div>
+                  <SkillGlyph icon={it.icon} />
                   <span className="tile-name">{name}</span>
                 </div>
               );
@@ -252,7 +249,7 @@ export function Work() {
             <li key={p.slug} className="case-row">
               <a href={href(`/realisations/${p.slug}`)} className="case-media" tabIndex={-1} aria-hidden="true">
                 <ProjectVisual kind={p.visual} />
-                {p.confidential && <span className="conf-pill"><Lock />{t.conf}</span>}
+                {p.confidential && <span className="conf-pill"><UiIcon icon={Lock} />{t.conf}</span>}
               </a>
               <div className="case-text">
                 <span className="eyebrow">{pick(CATS[p.cat], lang)}</span>
@@ -266,8 +263,9 @@ export function Work() {
                   <a href={href(`/realisations/${p.slug}`)} className="btn-sm">{t.caseBtn}</a>
                   {p.repoUrl && (
                     <a href={p.repoUrl} target="_blank" rel="noopener" className="btn-sm quiet">
-                      <BrandIcon slug="github" size={16} color={C.raph} />
+                      <SocialIcon id="github" />
                       {t.codeBtn}
+                      <UiIcon icon={ArrowUpRight} className="ext" />
                     </a>
                   )}
                 </div>
@@ -318,7 +316,7 @@ export function Method() {
           <ol className="steps">
             {STEPS.map(([ti, de], i) => (
               <li key={i} className="step">
-                <span className="step-node" aria-hidden="true" />
+                <span className="step-node"><UiIcon icon={STEP_ICONS[i]} /></span>
                 <div className="step-text">
                   <h3>{pick(ti, lang)}</h3>
                   <p>{pick(de, lang)}</p>
@@ -433,7 +431,7 @@ export function Contact() {
           <dl className="contact-list">
             <div><dt>{t.infoLoc}</dt><dd>Nairobi, Kenya</dd></div>
             {SOCIAL_LINKS.filter((l) => l.id !== "email").map((l) => (
-              <div key={l.id}><dt>{l.label}</dt><dd><a href={l.href} target="_blank" rel="noopener">{l.handle}</a></dd></div>
+              <div key={l.id}><dt>{l.label}</dt><dd><a href={l.href} target="_blank" rel="noopener" className="ext-link"><SocialIcon id={l.id} size={16} />{l.handle}<UiIcon icon={ArrowUpRight} className="ext" /></a></dd></div>
             ))}
           </dl>
           <p className="small">{t.refs}</p>

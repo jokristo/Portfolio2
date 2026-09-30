@@ -1,5 +1,4 @@
 import { useId, type ReactNode } from "react";
-import { ICONS, type IconSlug } from "@/lib/icons";
 
 export const C = {
   bg: "#0F0C0A",
@@ -217,37 +216,6 @@ export const Corners = ({ which = "diag" }: { which?: "all" | "diag" | "tl" }) =
   </>
 );
 
-export const Lock = () => (
-  <svg width={12} height={13} viewBox="0 0 12 13" aria-hidden="true">
-    <rect x={1} y={5.5} width={10} height={7} fill={C.red} />
-    <path d="M3.2 5.5 V3.8 a2.8 2.8 0 0 1 5.6 0 V5.5" fill="none" stroke={C.raph} strokeWidth={1.3} />
-  </svg>
-);
-
-export const MailIcon = () => (
-  <svg width={18} height={18} viewBox="0 0 18 18" aria-hidden="true">
-    <rect x={1.5} y={3.5} width={15} height={11} fill="none" stroke={C.raph} strokeWidth={1.4} />
-    <path d="M2 4.5 L9 10 L16 4.5" fill="none" stroke={C.raph} strokeWidth={1.4} />
-  </svg>
-);
-
-export const LinkedInIcon = () => (
-  <svg width={18} height={18} viewBox="0 0 18 18" aria-hidden="true">
-    <rect x={1} y={1} width={16} height={16} rx={2} fill={C.raph} />
-    <text x={9} y={13.4} textAnchor="middle" fontFamily="var(--font-body), sans-serif" fontWeight={700} fontSize={11} fill={C.bg}>
-      in
-    </text>
-  </svg>
-);
-
-export function BrandIcon({ slug, size, color }: { slug: IconSlug; size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" style={{ display: "block", flex: "none" }}>
-      <path d={ICONS[slug]} fill={color} />
-    </svg>
-  );
-}
-
 const ECG_POINTS = (() => {
   let p = "";
   for (let i = 0; i < 6; i++) {
@@ -263,23 +231,3 @@ export const Ecg = () => (
     <polyline points={ECG_POINTS} fill="none" stroke={C.ember} strokeWidth={2} strokeDasharray="160 440" className="kecg" />
   </svg>
 );
-
-export const SERVICE_ICONS = [
-  <svg key={0} width={28} height={28} viewBox="0 0 28 28" aria-hidden="true">
-    <path d="M14 2 L26 14 L14 26 L2 14Z M14 8 L20 14 L14 20 L8 14Z" fill="none" stroke={C.raph} strokeWidth={1.3} />
-    <path d="M14 11.5 L16.5 14 L14 16.5 L11.5 14Z" fill={C.red} />
-  </svg>,
-  <svg key={1} width={28} height={28} viewBox="0 0 28 28" aria-hidden="true">
-    <path d="M2 25 H9 V18 H16 V11 H23 V4" fill="none" stroke={C.raph} strokeWidth={1.4} />
-    <rect x={21} y={2} width={5} height={5} fill={C.red} />
-  </svg>,
-  <svg key={2} width={28} height={28} viewBox="0 0 28 28" aria-hidden="true">
-    <path d="M14 5 L23 14 L14 23 L5 14Z M14 1 V5 M14 23 V27 M1 14 H5 M23 14 H27" fill="none" stroke={C.raph} strokeWidth={1.3} />
-    <path d="M14 10 L18 14 L14 18 L10 14Z" fill={C.red} />
-  </svg>,
-  <svg key={3} width={28} height={28} viewBox="0 0 28 28" aria-hidden="true">
-    <path d="M14 2 L26 14 L14 26 L2 14Z" fill="none" stroke={C.raph} strokeWidth={1.3} />
-    <rect x={10} y={12} width={8} height={7} fill={C.red} />
-    <path d="M11.5 12 V10.5 a2.5 2.5 0 0 1 5 0 V12" fill="none" stroke={C.raph} strokeWidth={1.3} />
-  </svg>,
-];
