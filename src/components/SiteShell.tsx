@@ -5,7 +5,7 @@ import { NAV_IDS } from "@/content/data";
 import { EMAIL } from "@/content/profile";
 import { LangProvider, prefersReducedMotion, useHref, useIsMobile, useLang } from "./lang";
 import { Band, C, CardFill, KubaBackground } from "./kuba";
-import { GITHUB_URL, LINKEDIN_URL } from "@/content/profile";
+import { SOCIAL_LINKS } from "@/content/profile";
 
 const GLOW_OPACITY = 0.22;
 const PATTERN_OPACITY = 0.05;
@@ -230,9 +230,9 @@ function Footer({ home }: { home: boolean }) {
           {t.nav.map((label, i) => <a key={NAV_IDS[i]} href={sectionHref(NAV_IDS[i])}>{label}</a>)}
         </nav>
         <div className="footer-social">
-          <a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a>
-          <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
-          <a href={`mailto:${EMAIL}`}>Email</a>
+          {SOCIAL_LINKS.map((l) => (
+            <a key={l.id} href={l.href} {...(l.external ? { target: "_blank", rel: "noopener" } : {})}>{l.label}</a>
+          ))}
           <span>© 2026 Josué Kristo</span>
         </div>
       </div>

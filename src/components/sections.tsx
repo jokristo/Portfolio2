@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { CASE_PROJECTS, CATS, CERTS, EDU, OTHER_GROUPS, OTHER_PROJECTS, SERVICES, SKILLS, SME, STEPS, TIMELINE, TITLE, type Meta as MetaT } from "@/content/data";
 import { pick } from "@/content/copy";
-import { CV_PATH, EMAIL, GITHUB_HANDLE, GITHUB_URL, LINKEDIN_URL } from "@/content/profile";
+import { CV_PATH, EMAIL, SOCIAL_LINKS } from "@/content/profile";
 import { Band, BandVertical, BrandIcon, C, CardFill, ColumnBase, ColumnRed, Corners, LinkedInIcon, Lock, MailIcon, SERVICE_ICONS, WovenFrame } from "./kuba";
 import { useHref, useIsMobile, useLang } from "./lang";
 import { ProjectVisual } from "./visuals";
@@ -36,7 +36,7 @@ export function Meta({ meta }: { meta: MetaT }) {
 }
 
 /* ── Hero ────────────────────────────────────────────────────────────── */
-export function Hero() {
+export function Hero({ cvAvailable }: { cvAvailable: boolean }) {
   const { t } = useLang();
   return (
     <section aria-label="Intro" className="hero">
@@ -51,12 +51,14 @@ export function Hero() {
           <p className="pitch">{t.pitch}</p>
           <div className="row">
             <a href="#work" className="btn btn-primary">{t.btnWork}</a>
-            <a href={CV_PATH} className="btn btn-ghost">{t.btnCv}</a>
+            {cvAvailable && <a href={CV_PATH} className="btn btn-ghost" download>{t.btnCv}</a>}
           </div>
           <div className="socials">
-            <a href={GITHUB_URL} target="_blank" rel="noopener" aria-label="GitHub" className="icon-btn"><BrandIcon slug="github" size={18} color={C.raph} /></a>
-            <a href={LINKEDIN_URL} target="_blank" rel="noopener" aria-label="LinkedIn" className="icon-btn"><LinkedInIcon /></a>
-            <a href={`mailto:${EMAIL}`} aria-label="Email" className="icon-btn"><MailIcon /></a>
+            {SOCIAL_LINKS.map((l) => (
+              <a key={l.id} href={l.href} aria-label={l.label} className="icon-btn" {...(l.external ? { target: "_blank", rel: "noopener" } : {})}>
+                {l.id === "github" ? <BrandIcon slug="github" size={18} color={C.raph} /> : l.id === "linkedin" ? <LinkedInIcon /> : <MailIcon />}
+              </a>
+            ))}
           </div>
         </div>
 
@@ -430,8 +432,9 @@ export function Contact() {
           <a href={`mailto:${EMAIL}`} className="contact-mail">{EMAIL}</a>
           <dl className="contact-list">
             <div><dt>{t.infoLoc}</dt><dd>Nairobi, Kenya</dd></div>
-            <div><dt>GitHub</dt><dd><a href={GITHUB_URL} target="_blank" rel="noopener">{GITHUB_HANDLE}</a></dd></div>
-            <div><dt>LinkedIn</dt><dd><a href={LINKEDIN_URL} target="_blank" rel="noopener">Josué Kristo</a></dd></div>
+            {SOCIAL_LINKS.filter((l) => l.id !== "email").map((l) => (
+              <div key={l.id}><dt>{l.label}</dt><dd><a href={l.href} target="_blank" rel="noopener">{l.handle}</a></dd></div>
+            ))}
           </dl>
           <p className="small">{t.refs}</p>
         </div>
