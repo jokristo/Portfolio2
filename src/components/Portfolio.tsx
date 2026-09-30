@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { NAV_IDS } from "@/content/data";
 import { EMAIL } from "@/content/profile";
 import { LangProvider, prefersReducedMotion, useIsMobile, useLang } from "./lang";
-import { Band, C, CardFill, KubaBackground, Logo } from "./kuba";
-import { About, Contact, Footer, Hero, Journey, Marquee, Method, Services, Skills, Stats, Work } from "./sections";
+import { Band, C, CardFill, KubaBackground } from "./kuba";
+import { About, Contact, Footer, Hero, Journey, Method, Services, Skills, Work } from "./sections";
 
 const GLOW_OPACITY = 0.22;
 const PATTERN_OPACITY = 0.05;
@@ -20,11 +20,9 @@ export default function Portfolio() {
         <Header />
         <main>
           <Hero />
-          <Stats />
           <About />
           <Services />
           <Skills />
-          <Marquee />
           <Work />
           <Method />
           <Journey />
@@ -136,8 +134,7 @@ function Header() {
     <>
       <header className="header">
         <div className="header-in">
-          <a href="#top" aria-label="Josué Kristo" className="brand">
-            <Logo />
+          <a href="#top" className="brand">
             <span className="brand-name">Josué Kristo</span>
           </a>
           <nav aria-label="Navigation" className="nav">
@@ -194,8 +191,7 @@ function MobileMenu({ onClose, onNavigate }: { onClose: () => void; onNavigate: 
       <div className="menu-fill" aria-hidden="true"><CardFill /></div>
       <div className="menu-glow" aria-hidden="true" />
       <div className="menu-top">
-        <a href="#top" onClick={onNavigate} aria-label="Josué Kristo" className="brand">
-          <Logo />
+        <a href="#top" onClick={onNavigate} className="brand">
           <span className="brand-name">Josué Kristo</span>
         </a>
         <button ref={closeRef} type="button" className="menu-close" onClick={onClose} aria-label={t.close}>
@@ -209,16 +205,13 @@ function MobileMenu({ onClose, onNavigate }: { onClose: () => void; onNavigate: 
       <nav aria-label="Menu" className="menu-nav">
         {t.nav.map((label, i) => (
           <a key={NAV_IDS[i]} href={`#${NAV_IDS[i]}`} onClick={onNavigate}>
-            <span className="n">0{i + 1}</span>
             <span className="l">{label}</span>
-            <span className="a" aria-hidden="true">→</span>
           </a>
         ))}
       </nav>
       <div className="menu-foot">
         <a href="#contact" onClick={onNavigate} className="btn btn-primary">
           {t.cta}
-          <span aria-hidden="true">→</span>
         </a>
         <a href={`mailto:${EMAIL}`} className="mail">{EMAIL}</a>
       </div>

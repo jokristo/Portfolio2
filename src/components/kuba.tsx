@@ -199,24 +199,6 @@ export function WovenFrame() {
 }
 
 /* ── Small marks ──────────────────────────────────────────────────────── */
-export const Logo = () => (
-  <svg width={38} height={38} viewBox="0 0 38 38" aria-hidden="true">
-    <path d="M19 1 L37 19 L19 37 L1 19Z" fill={C.surf} stroke={C.raph} strokeWidth={1.2} />
-    <path d="M19 6 L32 19 L19 32 L6 19Z" fill="none" stroke={C.ochre} strokeWidth={1} />
-    <path d="M29.5 8.5 L31 7 L32.5 8.5" fill="none" stroke={C.red} strokeWidth={1.4} />
-    <text x={19} y={23.2} textAnchor="middle" fontFamily="var(--font-display), sans-serif" fontWeight={800} fontSize={11} fill={C.raph} letterSpacing="-.3">
-      JK
-    </text>
-  </svg>
-);
-
-export const Mark = () => (
-  <svg width={14} height={14} viewBox="0 0 14 14" aria-hidden="true">
-    <path d="M7 .5 L13.5 7 L7 13.5 L.5 7Z" fill="none" stroke={C.raph} strokeWidth={1} />
-    <path d="M7 4 L10 7 L7 10 L4 7Z" fill={C.red} />
-  </svg>
-);
-
 export const Corner = () => (
   <svg width={22} height={22} viewBox="0 0 22 22" aria-hidden="true" style={{ display: "block" }}>
     <path d="M1 16 V1 H16" fill="none" stroke={C.ochre} strokeWidth={1.4} />

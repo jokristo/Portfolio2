@@ -1,103 +1,61 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import {
-  CATS, CERTS, EDU, FILTERS, MARQUEE, NAV_IDS, PHRASES, PROJECTS, SERVICES, SKILLS, SME, SME_FOR,
-  STAT_STARTS, STAT_TARGETS, STEPS, TIMELINE, type Cat, type Project,
-} from "@/content/data";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { CATS, CERTS, EDU, FILTERS, NAV_IDS, PROJECTS, SERVICES, SKILLS, SME, SME_FOR, STEPS, TIMELINE, TITLE, type Cat, type Project } from "@/content/data";
 import { pick } from "@/content/copy";
-import { CV_PATH as CV_URL, EMAIL, GITHUB_URL as GITHUB, LINKEDIN_URL as LINKEDIN } from "@/content/profile";
-import {
-  Band, BandVertical, BrandIcon, C, CardFill, ColumnBase, ColumnRed, Corners, Ecg, LinkedInIcon, Lock, Logo, MailIcon, Mark,
-  SERVICE_ICONS, WovenFrame,
-} from "./kuba";
-import { prefersReducedMotion as reduced, useIsMobile, useLang } from "./lang";
+import { CV_PATH, EMAIL, GITHUB_HANDLE, GITHUB_URL, LINKEDIN_URL } from "@/content/profile";
+import { Band, BandVertical, BrandIcon, C, CardFill, ColumnBase, ColumnRed, Corners, Ecg, LinkedInIcon, Lock, MailIcon, SERVICE_ICONS, WovenFrame } from "./kuba";
+import { useIsMobile, useLang } from "./lang";
 import { submitContact } from "@/lib/contact";
 
-function Kicker({ n, children }: { n: string; children: ReactNode }) {
+function SectionHead({ id, title, lede }: { id?: string; title: string; lede?: string }) {
   return (
-    <div className="kicker">
-      <Mark />
-      <span>{n}</span>
-      <span className="kicker-rule" />
-      <span>{children}</span>
+    <header className="section-head">
+      <h2 id={id} className="h2">{title}</h2>
+      {lede && <p className="lede">{lede}</p>}
+    </header>
+  );
+}
+
+/** Role or context in bold, then organisation and year on a secondary line. */
+export function Meta({ meta }: { meta: Project["meta"] }) {
+  const { lang } = useLang();
+  const primary = meta.role ?? meta.context;
+  const secondary = [meta.org, meta.year].filter(Boolean);
+  return (
+    <div className="meta">
+      {primary && <strong>{pick(primary, lang)}</strong>}
+      {secondary.length > 0 && (
+        <span className="meta-sub">
+          {secondary.map((s) => <span key={s}>{s}</span>)}
+        </span>
+      )}
     </div>
   );
 }
 
 /* ── Hero ────────────────────────────────────────────────────────────── */
-function useTypewriter() {
-  const [text, setText] = useState(PHRASES[0]);
-  useEffect(() => {
-    if (reduced()) return;
-    let i = 0, c = 0, del = false, tt: ReturnType<typeof setTimeout>;
-    const step = () => {
-      const p = PHRASES[i];
-      if (!del) {
-        c++;
-        setText(p.slice(0, c));
-        if (c === p.length) { del = true; tt = setTimeout(step, 2400); return; }
-        tt = setTimeout(step, 36);
-      } else {
-        c--;
-        setText(p.slice(0, c));
-        if (c === 0) { del = false; i = (i + 1) % PHRASES.length; tt = setTimeout(step, 380); return; }
-        tt = setTimeout(step, 16);
-      }
-    };
-    tt = setTimeout(() => { setText(""); step(); }, 900);
-    return () => clearTimeout(tt);
-  }, []);
-  return text;
-}
-
-const BADGES: { label: ReactNode; pos: React.CSSProperties; dur: number; delay: number; inDelay: number; extra?: boolean; accent?: boolean }[] = [
-  { label: <><BrandIcon slug="nextdotjs" size={16} color={C.raph} />Next.js</>, pos: { top: "9%", left: "-2%" }, dur: 5.5, delay: 2.6, inDelay: 2 },
-  { label: <><BrandIcon slug="python" size={16} color={C.raph} />Python</>, pos: { top: "22%", right: "-4%" }, dur: 6.5, delay: 2.8, inDelay: 2.15, extra: true },
-  { label: "genai", pos: { top: "56%", right: "-8%" }, dur: 6, delay: 3, inDelay: 2.3, accent: true },
-  { label: <><BrandIcon slug="fastapi" size={16} color={C.raph} />FastAPI</>, pos: { bottom: "18%", left: "-6%" }, dur: 7, delay: 2.7, inDelay: 2.45, extra: true },
-  { label: <><BrandIcon slug="flutter" size={16} color={C.raph} />Flutter</>, pos: { bottom: "4%", right: "12%" }, dur: 5.8, delay: 2.9, inDelay: 2.6, extra: true },
-];
-
 export function Hero() {
   const { t } = useLang();
-  const tw = useTypewriter();
   return (
     <section aria-label="Intro" className="hero">
       <div className="wrap hero-grid">
         <div className="hero-text">
-          <div className="avail">
-            <span className="avail-dot" aria-hidden="true"><span /><span /></span>
-            {t.avail}
-          </div>
           <h1>
             Josué
             <br />
             Kristo<span className="dot">.</span>
           </h1>
-          <p className="typewriter">
-            <span className="sr-only">{PHRASES[0]}</span>
-            <span aria-hidden="true">{tw}</span>
-            <span aria-hidden="true" className="caret" />
-          </p>
+          <p className="hero-title">{TITLE}</p>
           <p className="pitch">{t.pitch}</p>
           <div className="row">
-            <a href="#work" className="btn btn-primary">
-              {t.btnWork}
-              <span aria-hidden="true">→</span>
-            </a>
-            <a href={CV_URL} className="btn btn-ghost">
-              {t.btnCv}
-              <span aria-hidden="true">↓</span>
-            </a>
+            <a href="#work" className="btn btn-primary">{t.btnWork}</a>
+            <a href={CV_PATH} className="btn btn-ghost">{t.btnCv}</a>
           </div>
           <div className="socials">
-            <div className="icons">
-              <a href={GITHUB} target="_blank" rel="noopener" aria-label="GitHub" className="icon-btn"><BrandIcon slug="github" size={18} color={C.raph} /></a>
-              <a href={LINKEDIN} aria-label="LinkedIn" className="icon-btn"><LinkedInIcon /></a>
-              <a href={`mailto:${EMAIL}`} aria-label="Email" className="icon-btn"><MailIcon /></a>
-            </div>
-            <span className="based">{t.based}</span>
+            <a href={GITHUB_URL} target="_blank" rel="noopener" aria-label="GitHub" className="icon-btn"><BrandIcon slug="github" size={18} color={C.raph} /></a>
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener" aria-label="LinkedIn" className="icon-btn"><LinkedInIcon /></a>
+            <a href={`mailto:${EMAIL}`} aria-label="Email" className="icon-btn"><MailIcon /></a>
           </div>
         </div>
 
@@ -108,158 +66,98 @@ export function Hero() {
             <img src="/portrait.webp" alt="Portrait de Josué Kristo" width={933} height={1120} />
           </div>
           <div className="portrait-frame" aria-hidden="true"><WovenFrame /></div>
-          {BADGES.map((bd, i) => (
-            <div key={i} aria-hidden="true" className={`badge-float${bd.extra ? " extra" : ""}${bd.accent ? " genai" : ""}`} style={{ ...bd.pos, animationDuration: `${bd.dur}s`, animationDelay: `${bd.delay}s` }}>
-              <div className={`badge${bd.accent ? " accent" : ""}`} style={{ animationDelay: `${bd.inDelay}s` }}>
-                {bd.label === "genai" ? <><span className="diamond" />{t.genai}</> : bd.label}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
   );
 }
 
-/* ── Stats: count up once on first view ──────────────────────────────── */
-export function Stats() {
-  const { t } = useLang();
-  const ref = useRef<HTMLElement>(null);
-  const [counts, setCounts] = useState(STAT_TARGETS);
-
-  useEffect(() => {
-    if (reduced() || !ref.current) return;
-    const el = ref.current;
-    if (el.getBoundingClientRect().top < window.innerHeight) return; // already on screen: keep final values
-    setCounts(STAT_STARTS);
-    let raf = 0;
-    const io = new IntersectionObserver(
-      (es) => {
-        if (!es.some((e) => e.isIntersecting)) return;
-        io.disconnect();
-        const t0 = performance.now(), dur = 1500;
-        const tick = (now: number) => {
-          const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-          setCounts(STAT_TARGETS.map((tg, i) => Math.round(STAT_STARTS[i] + (tg - STAT_STARTS[i]) * e)));
-          if (k < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-      },
-      { threshold: 0.4 },
-    );
-    io.observe(el);
-    return () => { io.disconnect(); cancelAnimationFrame(raf); };
-  }, []);
-
-  return (
-    <section ref={ref} aria-label={t.statsLabel} className="stats">
-      <div className="wrap stats-grid">
-        {t.stats.map((s, i) => (
-          <div key={i} className="stat">
-            <div className="stat-line">
-              {"pre" in s && <span className="stat-pre">{s.pre}</span>}
-              <span className="stat-n">{counts[i]}</span>
-              {s.unit && <span className="stat-unit">{s.unit}</span>}
-            </div>
-            <p>{s.label}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ── About ───────────────────────────────────────────────────────────── */
+/* ── About: prose on the left, a plain fact list on the right ────────── */
 export function About() {
   const { t } = useLang();
   return (
     <section id="about" className="about">
       <div data-reveal className="wrap about-grid">
         <div>
-          <Kicker n="01">{t.nav[0]}</Kicker>
-          <h2 className="h2">{t.aboutT}</h2>
+          <SectionHead title={t.aboutT} />
           <p className="about-p">{t.aboutP}</p>
         </div>
-        <div className="card info">
-          <Corners which="all" />
-          <dl>
-            {t.infoK.map((k, i) => (
-              <div key={k} className="info-row">
-                <dt>{k}</dt>
-                <dd>{i === 1 ? <a href={`mailto:${EMAIL}`}>{t.infoV[i]}</a> : t.infoV[i]}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+        <dl className="facts">
+          {t.infoK.map((k, i) => (
+            <div key={k} className="fact">
+              <dt>{k}</dt>
+              <dd>{i === 1 ? <a href={`mailto:${EMAIL}`}>{t.infoV[i]}</a> : t.infoV[i]}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
 }
 
-/* ── Services ────────────────────────────────────────────────────────── */
+/* ── Services: a ruled 2×2 list, then the SME band ──────────────────── */
 export function Services() {
   const { t, lang } = useLang();
   return (
     <section id="services" className="services">
       <div className="wrap">
         <div data-reveal>
-          <Kicker n="02">{t.nav[1]}</Kicker>
-          <h2 className="h2">{t.servT}</h2>
-          <p className="lede">{t.forCompanies}</p>
+          <SectionHead title={t.servT} />
         </div>
-        <div data-reveal className="svc-grid">
-          {SERVICES.map((sv, i) => (
-            <article key={i} className="card svc">
-              <Corners />
-              <div className="svc-icon">{SERVICE_ICONS[i]}</div>
-              <h3>{pick(sv.t, lang)}</h3>
-              <p>{pick(sv.d, lang)}</p>
-              <span aria-hidden="true" className="arrow">→</span>
-            </article>
-          ))}
+        <div data-reveal className="svc-block">
+          <h3 className="svc-group">{t.forCompanies}</h3>
+          <ul className="svc-list">
+            {SERVICES.map((sv, i) => (
+              <li key={i} className="svc">
+                <span className="svc-icon" aria-hidden="true">{SERVICE_ICONS[i]}</span>
+                <div>
+                  <h4>{pick(sv.t, lang)}</h4>
+                  <p>{pick(sv.d, lang)}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div data-reveal className="card sme">
+        <div data-reveal className="sme">
           <div className="sme-glow" aria-hidden="true" />
           <div className="sme-fill" aria-hidden="true"><CardFill /></div>
           <div className="sme-grid">
             <div className="sme-text">
-              <span className="sme-k">{t.smeK}</span>
+              <span className="eyebrow">{t.smeK}</span>
               <h3>{t.smeT}</h3>
               <p className="sme-p">{t.smeP}</p>
-              <div className="sme-offers">
+              <ul className="sme-offers">
                 {SME.map((o, i) => (
-                  <div key={i} className="sme-offer">
+                  <li key={i} className="sme-offer">
                     <span aria-hidden="true" className="d" />
                     <div>
                       <div className="t">{pick(o.t, lang)}</div>
                       <div className="s">{pick(o.d, lang)}</div>
                     </div>
+                  </li>
+                ))}
+              </ul>
+              <p className="sme-for">
+                <span>{t.smeFor}</span> {SME_FOR.map((f) => pick(f, lang)).join(", ")}.
+              </p>
+              <a href="#contact" className="btn btn-primary">{t.smeCta}</a>
+            </div>
+            <figure className="chat">
+              <div aria-hidden="true" className="chat-body">
+                <div className="chat-head">
+                  <span className="chat-avatar" />
+                  <div>
+                    <div className="chat-name">{t.chatName}</div>
+                    <div className="chat-sub">{t.chatSub}</div>
                   </div>
+                </div>
+                {t.chat.map((m, i) => (
+                  <div key={i} className={`bubble ${i % 2 ? "bot" : "me"}${i === 3 ? " last" : ""}`}>{m}</div>
                 ))}
               </div>
-              <div className="sme-for">
-                <span>{t.smeFor}</span>
-                {SME_FOR.map((f, i) => <span key={i} className="chip">{pick(f, lang)}</span>)}
-              </div>
-              <a href="#contact" className="btn btn-primary">
-                {t.smeCta}
-                <span aria-hidden="true">→</span>
-              </a>
-            </div>
-            <div aria-hidden="true" className="chat">
-              <div className="chat-head">
-                <span className="chat-avatar" />
-                <div>
-                  <div className="chat-name">{t.chatName}</div>
-                  <div className="chat-sub">{t.chatSub}</div>
-                </div>
-              </div>
-              {t.chat.map((m, i) => (
-                <div key={i} className={`bubble ${i % 2 ? "bot" : "me"}${i === 3 ? " last" : ""}`}>{m}</div>
-              ))}
-              <div className="chat-note">{t.chatNote}</div>
-            </div>
+              <figcaption className="caption">{t.chatNote}</figcaption>
+            </figure>
           </div>
         </div>
       </div>
@@ -295,8 +193,7 @@ export function Skills() {
     <section id="skills" className="skills">
       <div className="wrap">
         <div data-reveal>
-          <Kicker n="03">{t.nav[2]}</Kicker>
-          <h2 className="h2">{t.skillsT}</h2>
+          <SectionHead title={t.skillsT} />
         </div>
         <div data-reveal className="skills-body">
           <div role="tablist" aria-orientation={isMobile ? "horizontal" : "vertical"} aria-label={t.skillsT} className="tabs" onKeyDown={onKey}>
@@ -314,10 +211,7 @@ export function Skills() {
                 className="tab"
               >
                 <span>{pick(c.c, lang)}</span>
-                <span className="tab-meta">
-                  {String(c.i.length).padStart(2, "0")}
-                  <span className="tab-dot" />
-                </span>
+                <span className="tab-count">{c.i.length}</span>
               </button>
             ))}
           </div>
@@ -340,30 +234,6 @@ export function Skills() {
   );
 }
 
-/* ── Marquee: continuous, slows down on hover ────────────────────────── */
-export function Marquee() {
-  const ref = useRef<HTMLDivElement>(null);
-  const anim = useRef<Animation | null>(null);
-  useEffect(() => {
-    if (reduced() || !ref.current?.animate) return;
-    anim.current = ref.current.animate([{ transform: "translateX(0)" }, { transform: "translateX(-50%)" }], { duration: 45000, iterations: Infinity });
-    return () => anim.current?.cancel();
-  }, []);
-  return (
-    <div aria-hidden="true" className="marquee" onMouseEnter={() => anim.current?.updatePlaybackRate(0.25)} onMouseLeave={() => anim.current?.updatePlaybackRate(1)}>
-      <div ref={ref} className="marquee-track">
-        {MARQUEE.concat(MARQUEE).map(([name, slug], i) => (
-          <div key={i} className="marquee-item">
-            <BrandIcon slug={slug} size={22} color={C.mute} />
-            <span className="name">{name}</span>
-            <span className="sep" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ── Work ────────────────────────────────────────────────────────────── */
 function HrVisual() {
   const { t } = useLang();
@@ -374,11 +244,11 @@ function HrVisual() {
         {["80%", "60%", "70%", "50%", "65%"].map((w, i) => <span key={i} className={`vis-bar${i === 2 ? " red" : ""}`} style={{ width: w }} />)}
       </div>
       <div className="vis-levels">
-        <span className="vis-caption">{t.accessLevels}</span>
+        <span className="caption">{t.accessLevels}</span>
         {["100%", "84%", "66%", "50%", "34%"].map((w, i) => (
           <div key={i} className="vis-level">
             <span className="l">N{i + 1}</span>
-            <span className="b" style={{ width: w, background: i === 1 ? C.red : C.surf, animationDelay: `${0.1 + i * 0.1}s` }} />
+            <span className="b" style={{ width: w, background: i === 1 ? C.red : C.surf }} />
           </div>
         ))}
       </div>
@@ -393,8 +263,8 @@ function MedVisual() {
       <div className="vis-chain">
         <div className="vis-node"><span className="vis-ring" /><span className="label">{t.bracelet}</span></div>
         <div className="vis-wire"><span /></div>
-        <div className="vis-node"><span className="vis-box">MCU</span><span className="label">{t.sensors}</span></div>
-        <div className="vis-wire"><span style={{ animationDelay: "1.2s" }} /></div>
+        <div className="vis-node"><span className="vis-box">Arduino</span><span className="label">{t.sensors}</span></div>
+        <div className="vis-wire"><span /></div>
         <div className="vis-node"><span className="vis-box vis-dash"><span /><span /><span /><span /></span><span className="label">ThingsBoard</span></div>
       </div>
       <div className="vis-vitals">
@@ -415,12 +285,11 @@ function CvVisual() {
         <span className="gap" style={{ width: "90%" }} /><span style={{ width: "80%" }} /><span style={{ width: "85%" }} />
         <span className="gap" style={{ width: "70%" }} /><span style={{ width: "88%" }} />
         <span className="gap" style={{ width: "60%" }} /><span style={{ width: "75%" }} />
-        <span className="vis-scan" />
       </div>
-      <span className="vis-to">→</span>
+      <span className="vis-to" />
       <div className="vis-fields">
         {t.cvFields.map((k, i) => (
-          <div key={k} className="vis-field" style={{ animationDelay: `${i * 0.35}s` }}>
+          <div key={k} className="vis-field">
             <div className="k">{k}</div>
             <div className="v" style={{ width: ["70%", "90%", "60%", "80%"][i] }} />
           </div>
@@ -432,9 +301,6 @@ function CvVisual() {
 
 function ProjectCard({ p, big }: { p: Project; big: boolean }) {
   const { t, lang } = useLang();
-  const confPill = p.conf && (
-    <span className="conf-pill"><Lock />{t.conf}</span>
-  );
   return (
     <article className={`card proj ${big ? "big" : "small"}`}>
       <div className="proj-vis">
@@ -454,23 +320,19 @@ function ProjectCard({ p, big }: { p: Project; big: boolean }) {
             </div>
           )}
         </div>
-        {confPill}
+        {p.conf && <span className="conf-pill"><Lock />{t.conf}</span>}
       </div>
       <div className="proj-body">
         <div className="proj-cat">{pick(CATS[p.cat], lang)}</div>
         <h3>{pick(p.title, lang)}</h3>
-        <div className="proj-meta">{pick(p.meta, lang)}</div>
+        <Meta meta={p.meta} />
         <p className="proj-desc">{pick(p.desc, lang)}</p>
         <div className="tags">
           {p.tags.map((tg, i) => <span key={i} className="tag">{pick(tg, lang)}</span>)}
         </div>
         {big ? (
           <div className="proj-actions">
-            {/* TODO: link to the case-study pages once they are built. */}
-            <a href="#" className="btn-sm">
-              {t.caseBtn}
-              <span aria-hidden="true" className="proj-arrow">→</span>
-            </a>
+            <a href="#" className="btn-sm">{t.caseBtn}</a>
             {p.code && (
               <a href={p.code} target="_blank" rel="noopener" className="btn-sm quiet">
                 <BrandIcon slug="github" size={16} color={C.raph} />
@@ -479,10 +341,7 @@ function ProjectCard({ p, big }: { p: Project; big: boolean }) {
             )}
           </div>
         ) : (
-          <a href="#" className="link-case">
-            {t.caseBtn}
-            <span aria-hidden="true" className="proj-arrow">→</span>
-          </a>
+          <a href="#" className="link-case">{t.caseBtn}</a>
         )}
       </div>
     </article>
@@ -498,10 +357,7 @@ export function Work() {
     <section id="work" className="work">
       <div className="wrap">
         <div data-reveal className="work-head">
-          <div>
-            <Kicker n="04">{t.nav[3]}</Kicker>
-            <h2 className="h2">{t.workT}</h2>
-          </div>
+          <SectionHead title={t.workT} />
           <div role="group" aria-label={t.filterLabel} className="filters">
             {FILTERS.map(([key, label]) => (
               <button key={key} type="button" className="filter" aria-pressed={filter === key} onClick={() => setFilter(key)}>
@@ -523,21 +379,20 @@ export function Work() {
   );
 }
 
-/* ── Method ──────────────────────────────────────────────────────────── */
+/* ── Method: a sequence joined by the woven band ─────────────────────── */
 export function Method() {
   const { t, lang } = useLang();
   return (
     <section aria-labelledby="method-t" className="method">
       <div data-reveal className="wrap">
-        <Kicker n="05">{t.methodK}</Kicker>
-        <h2 id="method-t" className="h2">{t.methodT}</h2>
+        <SectionHead id="method-t" title={t.methodT} />
         <div className="method-body">
           <div aria-hidden="true" className="method-band h"><Band color={C.dim} /></div>
           <div aria-hidden="true" className="method-band v"><BandVertical color={C.dim} /></div>
           <ol className="steps">
             {STEPS.map(([ti, de], i) => (
               <li key={i} className="step">
-                <span className="step-n"><span>0{i + 1}</span></span>
+                <span className="step-node" aria-hidden="true" />
                 <div className="step-text">
                   <h3>{pick(ti, lang)}</h3>
                   <p>{pick(de, lang)}</p>
@@ -578,8 +433,7 @@ export function Journey() {
     <section id="journey" className="journey">
       <div className="wrap">
         <div data-reveal>
-          <Kicker n="06">{t.nav[4]}</Kicker>
-          <h2 className="h2">{t.journeyT}</h2>
+          <SectionHead title={t.journeyT} />
         </div>
         <div className="journey-grid">
           <div ref={tlRef} className="timeline">
@@ -593,14 +447,13 @@ export function Journey() {
                   <span aria-hidden="true" className="tl-tick" />
                   <div className="tl-period">{j.current ? `${pick(j.period, lang)} – ${t.now}` : pick(j.period, lang)}</div>
                   <h3>{pick(j.role, lang)}</h3>
-                  <div className="tl-org"><b>{j.org}</b><span> · {pick(j.place, lang)}</span></div>
+                  <div className="meta-sub"><span>{j.org}</span><span>{pick(j.place, lang)}</span></div>
                 </li>
               ))}
             </ol>
           </div>
           <div data-reveal className="side">
-            <div className="card">
-              <Corners which="tl" />
+            <div>
               <h3>{t.certT}</h3>
               <ul>
                 {CERTS.map(([n, y]) => (
@@ -608,8 +461,7 @@ export function Journey() {
                 ))}
               </ul>
             </div>
-            <div className="card">
-              <Corners which="tl" />
+            <div>
               <h3>{t.eduT}</h3>
               <ul>
                 {EDU.map(([n, s], i) => (
@@ -649,16 +501,15 @@ export function Contact() {
     <section id="contact" className="contact">
       <div data-reveal className="wrap contact-grid">
         <div className="contact-text">
-          <Kicker n="07">Contact</Kicker>
           <h2>{t.contactT}</h2>
           <p className="contact-p">{t.contactP}</p>
           <a href={`mailto:${EMAIL}`} className="contact-mail">{EMAIL}</a>
-          <div className="contact-list">
-            <div><span className="k">{t.infoLoc}</span><span>Nairobi, Kenya</span></div>
-            <a href={GITHUB} target="_blank" rel="noopener"><span className="k">GitHub</span><span>@jokristo ↗</span></a>
-            <a href={LINKEDIN}><span className="k">LinkedIn</span><span>Josué Kristo ↗</span></a>
-          </div>
-          <span className="based">{t.refs}</span>
+          <dl className="contact-list">
+            <div><dt>{t.infoLoc}</dt><dd>Nairobi, Kenya</dd></div>
+            <div><dt>GitHub</dt><dd><a href={GITHUB_URL} target="_blank" rel="noopener">{GITHUB_HANDLE}</a></dd></div>
+            <div><dt>LinkedIn</dt><dd><a href={LINKEDIN_URL} target="_blank" rel="noopener">Josué Kristo</a></dd></div>
+          </dl>
+          <p className="small">{t.refs}</p>
         </div>
         <div className="card form-card">
           <Corners />
@@ -684,10 +535,7 @@ export function Contact() {
                 </div>
               </fieldset>
               <label className="field">Message<textarea required name="message" rows={6} placeholder={t.fMsgPh} /></label>
-              <button type="submit" className="btn btn-primary" disabled={busy}>
-                {t.send}
-                <span aria-hidden="true">→</span>
-              </button>
+              <button type="submit" className="btn btn-primary" disabled={busy}>{t.send}</button>
             </form>
           )}
         </div>
@@ -702,16 +550,13 @@ export function Footer() {
   return (
     <footer className="footer">
       <div className="footer-in">
-        <a href="#top" aria-label="Josué Kristo" className="brand">
-          <Logo />
-          <span className="brand-name">Josué Kristo</span>
-        </a>
+        <a href="#top" className="brand"><span className="brand-name">Josué Kristo</span></a>
         <nav aria-label={t.quickLinks}>
           {t.nav.map((label, i) => <a key={NAV_IDS[i]} href={`#${NAV_IDS[i]}`}>{label}</a>)}
         </nav>
         <div className="footer-social">
-          <a href={GITHUB} target="_blank" rel="noopener">GitHub</a>
-          <a href={LINKEDIN}>LinkedIn</a>
+          <a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a>
+          <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
           <a href={`mailto:${EMAIL}`}>Email</a>
           <span>© 2026 Josué Kristo</span>
         </div>

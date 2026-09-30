@@ -5,10 +5,7 @@ import { GITHUB_URL } from "./profile";
 
 export const NAV_IDS = ["about", "services", "skills", "work", "journey", "contact"];
 
-export const STAT_TARGETS = [5, 6, 5, 2021];
-export const STAT_STARTS = [0, 0, 0, 2012];
-
-export const PHRASES = ["Senior Product Engineer & Technical Project Manager", "AI Engineer", "Full-Stack Developer"];
+export const TITLE = "Senior Product Engineer & Technical Project Manager";
 
 export const SERVICES = [
   { t: b("Product engineering", "Product engineering"), d: b("Architectures robustes, droits d'accès complexes, performance.", "Robust architectures, complex access rights, performance.") },
@@ -59,11 +56,6 @@ export const SKILLS: { c: Bi; i: Skill[] }[] = [
   },
 ];
 
-export const MARQUEE: [string, IconSlug][] = [
-  ["Python", "python"], ["Next.js", "nextdotjs"], ["FastAPI", "fastapi"], ["Django", "django"], ["Flutter", "flutter"], ["React", "react"], ["TypeScript", "typescript"],
-  ["PostgreSQL", "postgresql"], ["Arduino", "arduino"], ["Dart", "dart"], ["Git", "git"], ["GitHub", "github"], ["Figma", "figma"], ["Render", "render"],
-];
-
 export type Cat = "ent" | "ai" | "iot" | "perso";
 export const CATS: Record<Cat, Bi> = {
   ent: b("En entreprise", "Company work"),
@@ -81,7 +73,7 @@ export type Project = {
   conf?: boolean;
   code?: string;
   title: Text;
-  meta: Text;
+  meta: { role?: Text; context?: Text; org?: string; year?: string };
   desc: Text;
   tags: Text[];
   v?: Text[];
@@ -92,13 +84,13 @@ const PW = b("Plateforme web", "Web platform");
 export const PROJECTS: Project[] = [
   {
     id: "hr", featured: true, cat: "ent", visual: "hr", conf: true,
-    title: b("Refonte de Talent Pro HR", "Talent Pro HR rebuild"), meta: "Walumo · 2026 · Lead Product Engineer",
+    title: b("Refonte de Talent Pro HR", "Talent Pro HR rebuild"), meta: { role: "Lead Product Engineer", org: "Walumo", year: "2026" },
     desc: b("Architecture reconstruite de zéro, 5 niveaux de droits d'accès. Livrée en 5 mois, là où la version précédente avait pris 3 ans.", "Architecture rebuilt from scratch, with 5 levels of access rights. Shipped in 5 months — the previous version took 3 years."),
     tags: ["Architecture", "Next.js", "Agile"],
   },
   {
     id: "med", featured: true, cat: "iot", visual: "med", title: "MedGuard",
-    meta: b("Projet académique · Master en conception des systèmes d'information, UPN Kinshasa · 2025", "Academic project · Master's in Information Systems Design, UPN Kinshasa · 2025"),
+    meta: { context: b("Projet académique, Master en conception des systèmes d'information", "Academic project, Master's in Information Systems Design"), org: "UPN Kinshasa", year: "2025" },
     desc: b(
       "Prototype de bracelet intelligent : des capteurs reliés à un Arduino surveillent des paramètres médicaux, puis les données sont transmises et visualisées sur un tableau de bord ThingsBoard. Prototypé avec Wokwi et Proteus.",
       "A smart-bracelet prototype: sensors wired to an Arduino monitor medical parameters, then stream the data to a ThingsBoard dashboard. Prototyped in Wokwi and Proteus.",
@@ -108,61 +100,61 @@ export const PROJECTS: Project[] = [
   {
     // TODO: point to the exact repository once confirmed.
     id: "cv", featured: true, cat: "ai", visual: "cv", code: GITHUB_URL,
-    title: b("Extraction d'informations depuis des CV", "Information extraction from CVs"), meta: b("Projet IA", "AI project"),
+    title: b("Extraction d'informations depuis des CV", "Information extraction from CVs"), meta: { context: b("Projet IA", "AI project") },
     desc: b("Analyse automatique de CV pour en extraire des informations structurées : identité, expériences, compétences, formation.", "Automatic CV parsing that turns free-form résumés into structured data: identity, experience, skills, education."),
     tags: ["NLP", "Machine Learning", b("Traitement de documents", "Document processing")],
   },
   {
-    id: "ner", cat: "ai", title: b("Reconnaissance d'entités nommées", "Named-entity recognition"), meta: b("Projet IA", "AI project"),
+    id: "ner", cat: "ai", title: b("Reconnaissance d'entités nommées", "Named-entity recognition"), meta: { context: b("Projet IA", "AI project") },
     desc: b("Extraction automatique d’entités (noms, organisations, lieux, dates, compétences) dans des textes, appliquée aux données de candidats et aux documents professionnels.", "Automatic extraction of entities — names, organisations, places, dates, skills — from candidate data and business documents."),
     tags: ["NER", "NLP"], v: [b("Personne", "Person"), b("Organisation", "Organisation"), b("Lieu", "Place")],
   },
   {
-    id: "rec", cat: "ai", title: b("Système de recommandation de candidats", "Candidate recommendation system"), meta: b("Projet IA", "AI project"),
+    id: "rec", cat: "ai", title: b("Système de recommandation de candidats", "Candidate recommendation system"), meta: { context: b("Projet IA", "AI project") },
     desc: b("Mise en correspondance de profils de candidats et d'opportunités grâce à des techniques d'IA et de NLP.", "Matches candidate profiles with opportunities using AI and NLP techniques."),
     tags: ["NLP", b("Systèmes de recommandation", "Recommender systems")], v: [b("Profil", "Profile"), "NLP", b("Opportunité", "Opportunity")],
   },
   {
-    id: "stt", cat: "ai", title: b("Transcription automatique de la parole", "Automatic speech transcription"), meta: b("Projet IA", "AI project"),
+    id: "stt", cat: "ai", title: b("Transcription automatique de la parole", "Automatic speech transcription"), meta: { context: b("Projet IA", "AI project") },
     desc: b("Transcription de fichiers audio en texte avec Whisper et WhisperX, puis génération de texte à partir des transcriptions.", "Transcribes audio files with Whisper and WhisperX, then generates text from the transcripts."),
     tags: ["Whisper", "WhisperX", "Speech-to-Text"], v: ["Audio", "Whisper", b("Texte", "Text")],
   },
   {
-    id: "maxit", cat: "ent", conf: true, title: "Maxit", meta: "Orange RDC · 2024",
+    id: "maxit", cat: "ent", conf: true, title: "Maxit", meta: { org: "Orange RDC", year: "2024" },
     desc: b("Contribution majeure à l'ingénierie frontend.", "Major contribution to frontend engineering."), tags: ["Frontend"], v: ["UI", b("Composants", "Components"), "Frontend"],
   },
   {
-    id: "odc", cat: "ent", conf: true, title: b("Plateforme de gestion de l'Orange Digital Center", "Orange Digital Center management platform"), meta: "Orange RDC · 2024",
+    id: "odc", cat: "ent", conf: true, title: b("Plateforme de gestion de l'Orange Digital Center", "Orange Digital Center management platform"), meta: { org: "Orange RDC", year: "2024" },
     desc: b("Plateforme de gestion de l'Orange Digital Center.", "Management platform for the Orange Digital Center."), tags: [PW], v: [b("Plateforme", "Platform"), b("Gestion", "Management")],
   },
   {
-    id: "veh", cat: "ent", conf: true, title: b("Réquisition numérique de véhicules", "Digital vehicle requisition"), meta: "Orange RDC · 2024",
+    id: "veh", cat: "ent", conf: true, title: b("Réquisition numérique de véhicules", "Digital vehicle requisition"), meta: { org: "Orange RDC", year: "2024" },
     desc: b("Système numérique de réquisition de véhicules.", "A digital system for requisitioning vehicles."), tags: [PW], v: [b("Demande", "Request"), b("Véhicule", "Vehicle")],
   },
   {
-    id: "snel", cat: "ent", conf: true, title: b("Enregistrement clients & gestion des scellés", "Customer onboarding & seal management"), meta: "SNEL · 2023",
+    id: "snel", cat: "ent", conf: true, title: b("Enregistrement clients & gestion des scellés", "Customer onboarding & seal management"), meta: { org: "SNEL", year: "2023" },
     desc: b("Logiciel d'enregistrement des nouveaux clients et système de gestion des scellés.", "New-customer registration software and a seal management system."),
     tags: [b("Logiciel métier", "Business software")], v: ["Client", b("Enregistrement", "Registration"), b("Scellés", "Seals")],
   },
   {
-    id: "itm", cat: "ent", conf: true, title: b("Intégrations IA & automatisations Power Platform", "AI integrations & Power Platform automation"), meta: "ITM Holding · 2025–2026",
+    id: "itm", cat: "ent", conf: true, title: b("Intégrations IA & automatisations Power Platform", "AI integrations & Power Platform automation"), meta: { org: "ITM Holding", year: "2025–2026" },
     desc: b("Intégrations IA et automatisations de processus avec Power Platform.", "AI integrations and process automation with Power Platform."), tags: ["Power Platform", b("IA", "AI")], v: ["Power Platform", b("IA", "AI")],
   },
   {
-    id: "serm", cat: "perso", title: b("Brochures de sermons par IA", "AI sermon booklets"), meta: b("En phase de test", "In testing"),
+    id: "serm", cat: "perso", title: b("Brochures de sermons par IA", "AI sermon booklets"), meta: { context: b("En phase de test", "In testing") },
     desc: b("Transcrit une prédication, la résume et génère une brochure imprimable.", "Transcribes a sermon, summarises it and generates a print-ready booklet."),
     tags: [b("IA générative", "Generative AI"), "Transcription"], v: ["Audio", b("Résumé", "Summary"), "Brochure"],
   },
   {
-    id: "school", cat: "perso", title: b("Logiciel de gestion scolaire", "School management software"), meta: b("En conception", "In design"),
+    id: "school", cat: "perso", title: b("Logiciel de gestion scolaire", "School management software"), meta: { context: b("En conception", "In design") },
     desc: b("Pensé pour le marché congolais.", "Designed for the Congolese market."), tags: [b("Logiciel de gestion", "Management software")], v: [b("Élèves", "Students"), b("Classes", "Classes"), b("Gestion", "Admin")],
   },
   {
-    id: "wmb", cat: "perso", title: b("Site du Tabernacle William Marrion Branham", "William Marrion Branham Tabernacle website"), meta: "wmbranhamtabernacle.org",
+    id: "wmb", cat: "perso", title: b("Site du Tabernacle William Marrion Branham", "William Marrion Branham Tabernacle website"), meta: { context: "wmbranhamtabernacle.org" },
     desc: b("Site du tabernacle de Mont-Ngafula.", "Website for the Mont-Ngafula tabernacle."), tags: ["Web"], v: ["wmbranhamtabernacle.org"],
   },
   {
-    id: "eaglet", cat: "perso", title: "Kristo Eaglet", meta: b("Marque de vêtements", "Apparel brand"),
+    id: "eaglet", cat: "perso", title: "Kristo Eaglet", meta: { context: b("Marque de vêtements", "Apparel brand") },
     desc: b("Marque de vêtements chrétiens en impression à la demande, boutique Shopify et contenus vidéo IA.", "A print-on-demand Christian apparel brand, with a Shopify store and AI video content."),
     tags: ["Shopify", b("Vidéo IA", "AI video")], v: ["Shopify", b("Impression", "Print"), b("Vidéo IA", "AI video")],
   },
