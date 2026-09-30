@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth;background:#0F0C0A}
+body{margin:0;background:#0F0C0A;color:#EADFC8;font-family:'Source Sans 3',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#E0573F;text-decoration:none}
+a:hover{color:#EADFC8}
+::selection{background:#C2412D;color:#FFF7EC}
+:focus-visible{outline:2px solid #E0573F;outline-offset:3px}
+button{font:inherit;color:inherit}
+@keyframes kdrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-128px,-64px,0)}}
+@keyframes kbreathe{from{opacity:.7}to{opacity:1}}
+@keyframes kin{from{opacity:0;transform:translateY(12px)}}
+@keyframes kfade{from{opacity:0}}
+@keyframes kdia{from{opacity:0;transform:translate(-50%,-50%) rotate(45deg) scale(.6)}}
+@keyframes kgrowx{from{transform:scaleX(0)}}
+@keyframes kwipe{from{clip-path:inset(0 100% 0 0)}}
+@keyframes kflow{from{left:0%}to{left:100%}}
+@keyframes kflowv{from{top:0%}to{top:100%}}
+@keyframes kwipev{from{clip-path:inset(0 0 100% 0)}}
+@keyframes kecg{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
+@keyframes kpulse{0%,100%{opacity:.35}50%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+[data-motion="off"] *{animation:none!important;transition:none!important}
+</style>
+</helmet>
+<div id="top" lang="fr" data-motion="{{ motionAttr }}" style="position:relative;min-height:100vh;background:#0F0C0A;color:#EADFC8;overflow-x:clip">
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden">
+  <div style="position:absolute;inset:0;animation:kbreathe 9s ease-in-out infinite alternate">
+    <div style="position:absolute;top:-128px;left:-128px;width:calc(100% + 256px);height:calc(100% + 256px);animation:kdrift 90s ease-in-out infinite alternate">{{ kBg }}</div>
+  </div>
+  <div style="position:absolute;inset:0;display:{{ glowDisplay }};-webkit-mask-image:radial-gradient(280px circle at var(--mx,70%) var(--my,35%),#000 0%,transparent 72%);mask-image:radial-gradient(280px circle at var(--mx,70%) var(--my,35%),#000 0%,transparent 72%)">
+    <div style="position:absolute;top:-128px;left:-128px;width:calc(100% + 256px);height:calc(100% + 256px);animation:kdrift 90s ease-in-out infinite alternate">{{ kBgReveal }}</div>
+  </div>
+  {{ kGlow }}
+  <div style="position:absolute;inset:0;opacity:.07;mix-blend-mode:overlay;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"></div>
+</div>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(15,12,10,.74);border-bottom:1px solid #2E2520">
+  <div style="max-width:1320px;margin:0 auto;padding:12px {{ px }};display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <a href="Portfolio Josue Kristo.dc.html" aria-label="Josué Kristo — accueil" style="display:flex;align-items:center;gap:12px;color:#EADFC8">{{ kLogo }}<span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em">Josué Kristo</span></a>
+    <a href="Portfolio Josue Kristo.dc.html#work" style="display:{{ deskDisplay }};color:#A89A86;font-size:15px;font-weight:500;padding:8px 4px" style-hover="color:#EADFC8">← Toutes les réalisations</a>
+    <div style="flex:1"></div>
+    <div role="group" aria-label="Étude de cas affichée" style="display:{{ deskDisplay }};align-items:center;gap:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#A89A86">Gabarit</span>
+      <div style="display:flex;border:1px solid #2E2520;padding:3px;gap:2px">
+        <sc-for list="{{ variants }}" as="vr" hint-placeholder-count="2">
+          <button type="button" onClick="{{ vr.onClick }}" aria-pressed="{{ vr.active }}" style="border:0;cursor:pointer;padding:6px 12px;font-size:14px;font-weight:600;background:{{ vr.bg }};color:{{ vr.color }}">{{ vr.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <a href="Portfolio Josue Kristo.dc.html#contact" style="display:{{ deskDisplay }};background:#C2412D;color:#FFF7EC;font-weight:600;font-size:15px;padding:10px 18px;border:1px solid #C2412D;transition:background .2s,color .2s" style-hover="background:#E0573F;color:#0F0C0A">Parlons-en</a>
+    <button type="button" onClick="{{ openMenu }}" aria-label="Menu" aria-expanded="{{ menu }}" style="display:{{ burgerDisplay }};width:44px;height:44px;flex:none;align-items:center;justify-content:center;flex-direction:column;gap:6px;background:transparent;border:1px solid #2E2520;cursor:pointer"><span style="width:18px;height:1.5px;background:#EADFC8"></span><span style="width:18px;height:1.5px;background:#EADFC8"></span><span style="width:8px;height:1.5px;background:#C2412D;align-self:flex-end;margin-right:12px"></span></button>
+  </div>
+</header>
+
+<sc-if value="{{ menu }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-label="Menu" style="position:fixed;inset:0;z-index:80;background:#0F0C0A;display:flex;flex-direction:column;padding:12px 20px 0;overflow-y:auto;animation:kfade .25s ease backwards">
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none">{{ kCardFill }}</div>
+  <div aria-hidden="true" style="position:absolute;right:-220px;bottom:-200px;width:520px;height:520px;background:radial-gradient(closest-side,rgba(194,65,45,.22),transparent);pointer-events:none"></div>
+  <div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <a href="Portfolio Josue Kristo.dc.html" onClick="{{ closeMenu }}" aria-label="Josué Kristo" style="display:flex;align-items:center;gap:12px;color:#EADFC8">{{ kLogo }}<span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px">Josué Kristo</span></a>
+    <button type="button" onClick="{{ closeMenu }}" aria-label="Fermer / Close" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #2E2520;cursor:pointer;font-size:24px;line-height:1;color:#EADFC8">×</button>
+  </div>
+  <div style="position:relative;display:flex;flex-direction:column;gap:12px;margin-top:24px;padding:16px 0;border-top:1px solid #2E2520;border-bottom:1px solid #2E2520">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#A89A86">Étude de cas affichée</span>
+    <div role="group" aria-label="Étude de cas affichée" style="display:flex;border:1px solid #2E2520;padding:4px;gap:4px">
+      <sc-for list="{{ variants }}" as="vr" hint-placeholder-count="2">
+        <button type="button" onClick="{{ vr.onClick }}" aria-pressed="{{ vr.active }}" style="flex:1;border:0;cursor:pointer;min-height:44px;padding:0 12px;font-size:15px;font-weight:600;background:{{ vr.bg }};color:{{ vr.color }}">{{ vr.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+  <nav aria-label="Menu" style="position:relative;display:flex;flex-direction:column;margin-top:8px">
+    <sc-for list="{{ menuNav }}" as="mn" hint-placeholder-count="4">
+      <a href="{{ mn.href }}" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-bottom:1px solid #2E2520;color:#EADFC8" style-hover="color:#E0573F">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A89A86;width:22px">{{ mn.n }}</span>
+        <span style="flex:1;font-family:'Bricolage Grotesque',sans-serif;font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.05">{{ mn.label }}</span>
+        <span aria-hidden="true" style="color:#E0573F;font-size:20px">→</span>
+      </a>
+    </sc-for>
+  </nav>
+  <div style="position:relative;margin-top:auto;padding:32px 0 24px;display:flex;flex-direction:column;gap:16px">
+    <a href="Portfolio Josue Kristo.dc.html#contact" onClick="{{ closeMenu }}" style="display:flex;align-items:center;justify-content:center;gap:10px;background:#C2412D;color:#FFF7EC;border:1px solid #C2412D;padding:16px 24px;font-weight:600;font-size:17px">Parlons-en<span aria-hidden="true">→</span></a>
+    <a href="mailto:josuekristo5@gmail.com" style="font-size:16px;color:#E0573F;text-align:center">josuekristo5@gmail.com</a>
+  </div>
+  <div aria-hidden="true" style="position:relative;height:16px;margin:0 -20px">{{ kBandFooter }}</div>
+</div>
+</sc-if>
+
+<main style="position:relative;z-index:1">
+
+<section aria-label="En-tête du projet" style="padding:140px {{ px }} 56px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#A89A86;animation:kin .6s ease .05s backwards">{{ kMark }}<span>Étude de cas</span><span style="width:32px;height:1px;background:#2E2520"></span><span style="color:#E0573F">{{ p.cat }}</span></div>
+    <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(52px,7.4vw,118px);line-height:.92;letter-spacing:-.035em;max-width:14ch;text-wrap:balance;animation:kin .8s cubic-bezier(.2,.7,.2,1) .12s backwards">{{ p.title }}</h1>
+    <p style="margin:0;font-size:clamp(19px,1.6vw,23px);line-height:1.5;color:#A89A86;max-width:40em;text-wrap:pretty;animation:kin .8s ease .22s backwards">{{ p.lede }}</p>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;animation:kin .8s ease .3s backwards">
+      <sc-if value="{{ p.conf }}" hint-placeholder-val="{{ true }}">
+        <span style="display:inline-flex;align-items:center;gap:8px;border:1px solid #2E2520;background:#1A1512;padding:8px 14px;font-size:14px;font-weight:600">{{ kLock }}Confidentiel</span>
+      </sc-if>
+      <sc-if value="{{ p.code }}" hint-placeholder-val="{{ false }}">
+        <a href="https://github.com/jokristo" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;color:#EADFC8;border:1px solid #5A4A3F;padding:12px 18px;font-weight:600;font-size:15px;transition:border-color .2s" style-hover="border-color:#E0573F;color:#EADFC8"><span style="width:16px;height:16px;background:center/contain no-repeat url(https://cdn.simpleicons.org/github/EADFC8)"></span>Code source</a>
+      </sc-if>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#A89A86;letter-spacing:.04em">Les visuels sont illustratifs.</span>
+    </div>
+
+    <dl style="margin:16px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));border-top:1px solid #2E2520;border-bottom:1px solid #2E2520">
+      <sc-for list="{{ p.meta }}" as="m" hint-placeholder-count="4">
+        <div style="padding:22px 24px 22px 0;display:flex;flex-direction:column;gap:8px">
+          <dt style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#A89A86">{{ m.k }}</dt>
+          <dd style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:21px;font-weight:600;line-height:1.25">{{ m.v }}</dd>
+        </div>
+      </sc-for>
+      <div style="padding:22px 0;display:flex;flex-direction:column;gap:10px">
+        <dt style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#A89A86">Technologies</dt>
+        <dd style="margin:0;display:flex;flex-wrap:wrap;gap:6px">
+          <sc-for list="{{ p.techs }}" as="tg" hint-placeholder-count="3"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;padding:5px 9px;border:1px solid #2E2520;color:#EADFC8">{{ tg }}</span></sc-for>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section aria-label="Schéma illustratif" style="padding:0 {{ px }} 40px">
+  <figure data-seen="diag" style="max-width:1320px;margin:0;margin-left:auto;margin-right:auto;position:relative;background:#1A1512;border:1px solid #2E2520;overflow:hidden">
+    <div aria-hidden="true" style="position:absolute;inset:0;opacity:.8">{{ kCardFill }}</div>
+    <div aria-hidden="true" style="position:absolute;left:-160px;bottom:-240px;width:640px;height:640px;background:radial-gradient(closest-side,rgba(194,65,45,.22),transparent)"></div>
+    <span style="position:absolute;top:10px;left:10px">{{ kCorner }}</span>
+    <span style="position:absolute;top:10px;right:10px;transform:rotate(90deg)">{{ kCorner }}</span>
+    <span style="position:absolute;bottom:10px;right:10px;transform:rotate(180deg)">{{ kCorner }}</span>
+    <span style="position:absolute;bottom:10px;left:10px;transform:rotate(270deg)">{{ kCorner }}</span>
+    <div style="position:relative;min-height:460px;padding:{{ diagPad }}">
+      <sc-if value="{{ showHRDiag }}" hint-placeholder-val="{{ false }}">
+        <div aria-hidden="true" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:48px;align-items:center">
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ hrFlow }}" as="fn" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;align-items:flex-start">
+                <div style="display:flex;align-items:center;gap:14px;background:#0F0C0A;border:1px solid {{ fn.border }};padding:16px 18px;min-width:min(280px,100%);animation:kin .6s ease {{ fn.d }} backwards">
+                  <span style="width:12px;height:12px;flex:none;transform:rotate(45deg);background:{{ fn.dot }}"></span>
+                  <div><div style="font-weight:700;font-size:17px">{{ fn.t }}</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A89A86;margin-top:3px">{{ fn.s }}</div></div>
+                </div>
+                <sc-if value="{{ fn.link }}" hint-placeholder-val="{{ true }}">
+                  <div style="position:relative;width:1px;height:34px;margin-left:24px;background:#5A4A3F;animation:kfade .4s ease {{ fn.d }} backwards"><span style="position:absolute;left:-3px;width:7px;height:7px;background:#E0573F;transform:rotate(45deg);animation:kpulse 1.6s ease-in-out infinite"></span></div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center">
+            <div style="position:relative;width:min(340px,100%);aspect-ratio:1;flex:none">
+              <sc-for list="{{ hrRings }}" as="rg" hint-placeholder-count="5">
+                <span style="position:absolute;left:50%;top:50%;width:{{ rg.size }};height:{{ rg.size }};transform:translate(-50%,-50%) rotate(45deg);border:1px solid {{ rg.border }};background:{{ rg.bg }};animation:kdia .8s cubic-bezier(.2,.7,.2,1) {{ rg.d }} backwards"></span>
+              </sc-for>
+              <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#EADFC8;animation:kfade .6s ease 1.5s backwards">DONNÉES</span>
+            </div>
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ hrLegend }}" as="lg" hint-placeholder-count="5">
+                <li style="display:flex;align-items:center;gap:12px;animation:kin .5s ease {{ lg.d }} backwards">
+                  <span style="width:10px;height:10px;transform:rotate(45deg);border:1px solid {{ lg.border }};background:{{ lg.bg }}"></span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#EADFC8">{{ lg.t }}</span>
+                </li>
+              </sc-for>
+            </ol>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showMedDiag }}" hint-placeholder-val="{{ false }}">
+        <div aria-hidden="true" style="display:flex;flex-direction:column;gap:40px">
+          <div style="display:flex;flex-direction:{{ flowDir }};flex-wrap:nowrap;align-items:stretch;gap:0">
+            <sc-for list="{{ medFlow }}" as="mn" hint-placeholder-count="4">
+              <div style="flex:1 1 0;min-width:0;display:flex;flex-direction:{{ flowDir }};align-items:stretch">
+                <div style="flex:1;background:#0F0C0A;border:1px solid {{ mn.border }};padding:20px;display:flex;flex-direction:column;gap:14px;min-height:150px;animation:kin .6s ease {{ mn.d }} backwards">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0573F">{{ mn.n }}</span>
+                  <span style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:700">{{ mn.t }}</span>
+                  <span style="font-size:15px;color:#A89A86;line-height:1.4">{{ mn.s }}</span>
+                </div>
+                <sc-if value="{{ mn.link }}" hint-placeholder-val="{{ true }}">
+                  <div style="position:relative;width:{{ linkW }};height:{{ linkH }};margin-left:{{ linkML }};align-self:{{ linkAlign }};background:#5A4A3F;flex:none;animation:kfade .4s ease {{ mn.d }} backwards"><span style="position:absolute;top:-3px;left:-3px;width:7px;height:7px;background:#E0573F;transform:rotate(45deg);animation:{{ flowAnim }} 1.8s linear infinite"></span></div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="background:#0F0C0A;border:1px solid #2E2520;padding:18px 22px;animation:kin .7s ease 1.1s backwards">
+            <div style="display:flex;justify-content:space-between;gap:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#A89A86;margin-bottom:10px"><span>TABLEAU DE BORD · THINGSBOARD</span><span>SIGNAL ILLUSTRATIF</span></div>
+            {{ kEcg }}
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    <figcaption style="position:relative;border-top:1px solid #2E2520;padding:14px 24px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#A89A86">{{ p.diagCaption }}</figcaption>
+  </figure>
+</section>
+
+<section style="padding:100px {{ px }} 40px">
+  <div data-reveal="1" style="max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px 64px">
+    <div style="flex:1 1 280px;max-width:380px">
+      <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#A89A86">{{ kMark }}<span>01</span><span style="width:32px;height:1px;background:#2E2520"></span><span>{{ p.s1k }}</span></div>
+    </div>
+    <div style="flex:999 1 520px;display:flex;flex-direction:column;gap:20px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(32px,3.6vw,50px);line-height:1.05;letter-spacing:-.025em;max-width:20ch;text-wrap:balance">{{ p.s1t }}</h2>
+      <sc-for list="{{ p.s1p }}" as="para" hint-placeholder-count="2">
+        <p style="margin:0;font-size:20px;line-height:1.65;max-width:36em;text-wrap:pretty">{{ para }}</p>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section style="padding:80px {{ px }} 40px">
+  <div data-reveal="1" style="max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px 64px">
+    <div style="flex:1 1 280px;max-width:380px">
+      <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#A89A86">{{ kMark }}<span>02</span><span style="width:32px;height:1px;background:#2E2520"></span><span>{{ p.s2k }}</span></div>
+    </div>
+    <div style="flex:999 1 520px;display:flex;flex-direction:column;gap:28px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(32px,3.6vw,50px);line-height:1.05;letter-spacing:-.025em;max-width:20ch;text-wrap:balance">{{ p.s2t }}</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px">
+        <sc-for list="{{ p.s2items }}" as="it" hint-placeholder-count="3">
+          <div style="position:relative;background:#1A1512;border:1px solid #2E2520;padding:28px 24px 24px;display:flex;flex-direction:column;gap:12px">
+            <span style="position:absolute;top:8px;left:8px">{{ kCorner }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0573F;margin-top:10px">{{ it.n }}</span>
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:700;line-height:1.2">{{ it.t }}</h3>
+            <p style="margin:0;font-size:16px;line-height:1.55;color:#A89A86">{{ it.d }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:80px {{ px }} 40px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:48px">
+    <div data-reveal="1" style="display:flex;flex-wrap:wrap;gap:40px 64px">
+      <div style="flex:1 1 280px;max-width:380px">
+        <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#A89A86">{{ kMark }}<span>03</span><span style="width:32px;height:1px;background:#2E2520"></span><span>{{ p.s3k }}</span></div>
+      </div>
+      <h2 style="flex:999 1 520px;margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(32px,3.6vw,50px);line-height:1.05;letter-spacing:-.025em;max-width:20ch;text-wrap:balance">{{ p.s3t }}</h2>
+    </div>
+    <div data-seen="steps" style="position:relative">
+      <div aria-hidden="true" style="position:absolute;top:{{ sb.top }};left:{{ sb.left }};right:{{ sb.right }};bottom:{{ sb.bottom }};width:{{ sb.w }};height:{{ sb.h }}">
+        <div style="position:absolute;inset:0">{{ sb.el }}</div>
+        <sc-if value="{{ stepsSeen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;animation:{{ sb.wipe }} 2.2s cubic-bezier(.4,0,.2,1) .2s backwards">{{ sb.red }}</div>
+        </sc-if>
+      </div>
+      <ol style="list-style:none;margin:0;padding:0;position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:28px">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+          <li style="display:flex;flex-direction:{{ stepDir }};gap:{{ stepGap }}">
+            <span style="flex:none;width:52px;height:52px;display:flex;align-items:center;justify-content:center;position:relative">
+              <span style="position:absolute;inset:8px;background:{{ st.bg }};border:1px solid {{ st.border }};transform:rotate(45deg);transition:background .5s ease {{ st.d }},border-color .5s ease {{ st.d }}"></span>
+              <span style="position:relative;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#EADFC8">{{ st.n }}</span>
+            </span>
+            <div style="display:flex;flex-direction:column;gap:10px;padding-top:{{ stepPadTop }}"><h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:700;line-height:1.2">{{ st.t }}</h3>
+            <p style="margin:0;font-size:16px;line-height:1.55;color:#A89A86;max-width:26em">{{ st.d2 }}</p></div>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px {{ px }} 40px">
+  <div data-reveal="1" style="max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px 64px">
+    <div style="flex:1 1 280px;max-width:380px">
+      <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#A89A86">{{ kMark }}<span>04</span><span style="width:32px;height:1px;background:#2E2520"></span><span>{{ p.s4k }}</span></div>
+    </div>
+    <div style="flex:999 1 520px;display:flex;flex-direction:column;gap:28px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(32px,3.6vw,50px);line-height:1.05;letter-spacing:-.025em;max-width:22ch;text-wrap:balance">{{ p.s4t }}</h2>
+      <sc-if value="{{ isHR }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px">
+          <sc-for list="{{ hrFix }}" as="fx" hint-placeholder-count="2">
+            <div style="background:#1A1512;border:1px solid {{ fx.border }};padding:28px;display:flex;flex-direction:column;gap:20px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:{{ fx.labelColor }}">{{ fx.k }}</span>
+              <div aria-hidden="true" style="display:flex;align-items:center">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 8px;border:1px solid #3A2E27;background:#0F0C0A">ATS</span>
+                <span style="flex:1;height:1px;background:#5A4A3F"></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 8px;border:1px solid {{ fx.midBorder }};background:#0F0C0A;color:#EADFC8">{{ fx.mid }}</span>
+                <span style="flex:1;height:1px;background:{{ fx.line2 }};border-top:{{ fx.dash }}"></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 8px;border:1px solid #3A2E27;background:#0F0C0A">{{ fx.end }}</span>
+              </div>
+              <p style="margin:0;font-size:17px;line-height:1.6">{{ fx.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isMed }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px">
+          <sc-for list="{{ medTools }}" as="tl" hint-placeholder-count="2">
+            <div style="position:relative;background:#1A1512;border:1px solid #2E2520;padding:28px;display:flex;flex-direction:column;gap:12px">
+              <span style="position:absolute;top:8px;left:8px">{{ kCorner }}</span>
+              <h3 style="margin:10px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:700">{{ tl.t }}</h3>
+              <p style="margin:0;font-size:17px;line-height:1.55;color:#A89A86">{{ tl.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px {{ px }} 100px">
+  <div data-reveal="1" style="max-width:1320px;margin:0 auto;position:relative;overflow:hidden;background:#1A1512;border:1px solid #2E2520;padding:{{ bandPad }}">
+    <div aria-hidden="true" style="position:absolute;right:-200px;top:-220px;width:640px;height:640px;background:radial-gradient(closest-side,rgba(194,65,45,.28),transparent)"></div>
+    <div aria-hidden="true" style="position:absolute;inset:0;opacity:.6">{{ kCardFill }}</div>
+    <div style="position:relative;display:flex;flex-direction:column;gap:32px">
+      <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#A89A86">{{ kMark }}<span>05</span><span style="width:32px;height:1px;background:#3A2E27"></span><span>{{ p.s5k }}</span></div>
+      <sc-if value="{{ isHR }}" hint-placeholder-val="{{ true }}">
+        <div data-seen="result" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:end">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:baseline;gap:14px;font-family:'Bricolage Grotesque',sans-serif"><span style="font-size:clamp(96px,11vw,168px);font-weight:800;line-height:.85;letter-spacing:-.04em">5</span><span style="font-size:clamp(32px,3.4vw,48px);font-weight:700;color:#E0573F">mois</span></div>
+            <p style="margin:0;font-size:20px;line-height:1.55;max-width:26em">Talent Pro HR a été livrée en 5 mois, là où la version précédente avait demandé 3 ans de développement.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;font-size:15px;color:#A89A86"><span>Version précédente</span><span style="font-family:'JetBrains Mono',monospace">3 ans</span></div>
+              <div style="height:14px;background:#0F0C0A;border:1px solid #2E2520"><sc-if value="{{ resultSeen }}" hint-placeholder-val="{{ false }}"><div style="height:100%;width:100%;background:#5A4A3F;transform-origin:left;animation:kgrowx 1.4s cubic-bezier(.4,0,.2,1) backwards"></div></sc-if></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;font-size:15px"><span>Refonte</span><span style="font-family:'JetBrains Mono',monospace;color:#E0573F">5 mois</span></div>
+              <div style="height:14px;background:#0F0C0A;border:1px solid #2E2520"><sc-if value="{{ resultSeen }}" hint-placeholder-val="{{ false }}"><div style="height:100%;width:13.9%;background:#C2412D;transform-origin:left;animation:kgrowx .8s cubic-bezier(.4,0,.2,1) 1.5s backwards"></div></sc-if></div>
+            </div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A89A86">Barres à l'échelle · 5 mois sur 36</span>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isMed }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:28px">
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(32px,3.6vw,50px);line-height:1.05;letter-spacing:-.025em;max-width:20ch;text-wrap:balance">Une chaîne complète, du capteur à l'écran.</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px">
+            <sc-for list="{{ medResults }}" as="rs" hint-placeholder-count="3">
+              <div style="display:flex;gap:14px;background:#0F0C0A;border:1px solid #2E2520;padding:20px">
+                <span aria-hidden="true" style="flex:none;width:10px;height:10px;margin-top:8px;background:#C2412D;transform:rotate(45deg)"></span>
+                <div><div style="font-weight:700;font-size:18px">{{ rs.t }}</div><div style="color:#A89A86;font-size:16px;line-height:1.5;margin-top:4px">{{ rs.d }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<nav aria-label="Projet suivant" style="padding:0 {{ px }} 120px">
+  <button type="button" onClick="{{ goNext }}" onMouseEnter="{{ nextEnter }}" onMouseLeave="{{ nextLeave }}" style="display:block;width:100%;max-width:1320px;margin:0 auto;text-align:left;cursor:pointer;background:transparent;border:0;border-top:1px solid {{ nextBorder }};padding:40px 0 0;transition:border-color .3s">
+    <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#A89A86">Projet suivant · {{ next.cat }}</span>
+    <span style="display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:16px">
+      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(40px,6vw,92px);line-height:.95;letter-spacing:-.03em;color:#EADFC8">{{ next.title }}</span>
+      <span aria-hidden="true" style="flex:none;width:72px;height:72px;display:flex;align-items:center;justify-content:center;border:1px solid {{ nextBorder }};background:{{ nextBg }};color:#FFF7EC;font-size:28px;transition:transform .35s cubic-bezier(.2,.7,.2,1),background .3s,border-color .3s;transform:translateX({{ nextX }})">→</span>
+    </span>
+  </button>
+</nav>
+</main>
+
+<footer style="position:relative;z-index:1;border-top:1px solid #2E2520;background:#0F0C0A">
+  <div style="max-width:1320px;margin:0 auto;padding:36px {{ px }};display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px">
+    <a href="Portfolio Josue Kristo.dc.html" style="display:flex;align-items:center;gap:12px;color:#EADFC8">{{ kLogo }}<span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px">Josué Kristo</span></a>
+    <div style="display:flex;align-items:center;gap:16px;font-size:15px">
+      <a href="https://github.com/jokristo" target="_blank" rel="noopener" style="color:#A89A86" style-hover="color:#EADFC8">GitHub</a>
+      <a href="mailto:josuekristo5@gmail.com" style="color:#A89A86" style-hover="color:#EADFC8">Email</a>
+      <span style="color:#A89A86">© 2026 Josué Kristo</span>
+    </div>
+  </div>
+  <div aria-hidden="true" style="height:16px;opacity:.9">{{ kBandFooter }}</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;project&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;hr&quot;,&quot;med&quot;],&quot;default&quot;:&quot;hr&quot;,&quot;tsType&quot;:&quot;'hr' | 'med'&quot;,&quot;section&quot;:&quot;Gabarit&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Animation&quot;},&quot;glow&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.22,&quot;min&quot;:0,&quot;max&quot;:0.5,&quot;step&quot;:0.02,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Animation&quot;},&quot;patternOpacity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.05,&quot;min&quot;:0.02,&quot;max&quot;:0.12,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motif Kuba&quot;}}">
+const h = React.createElement;
+const C = { bg:'#0F0C0A', surf:'#1A1512', line:'#2E2520', red:'#C2412D', ember:'#E0573F', raph:'#EADFC8', mute:'#A89A86', ochre:'#B98534' };
+const tileKids = () => [
+  h('path',{key:1,d:'M32 2 L62 32 L32 62 L2 32 Z'}), h('path',{key:2,d:'M32 14 L50 32 L32 50 L14 32 Z'}), h('path',{key:3,d:'M32 25 L39 32 L32 39 L25 32 Z'}),
+  h('path',{key:4,d:'M0 10 H5 V5 H10 V0'}), h('path',{key:5,d:'M54 0 V5 H59 V10 H64'}), h('path',{key:6,d:'M0 54 H5 V59 H10 V64'}), h('path',{key:7,d:'M54 64 V59 H59 V54 H64'})
+];
+const RUP = [[704,320],[1344,832],[320,1152],[1792,256]];
+function bgSvg(id, stroke, op, rupColor, erase) {
+  return h('svg',{width:'100%',height:'100%',style:{display:'block'}},
+    h('defs',null,h('pattern',{id,width:64,height:64,patternUnits:'userSpaceOnUse'},h('g',{fill:'none',stroke,strokeWidth:1},tileKids()))),
+    h('g',{opacity:op}, h('rect',{width:'100%',height:'100%',fill:`url(#${id})`}),
+      RUP.map(([x,y],i)=>h('g',{key:i}, erase && h('rect',{x,y,width:64,height:64,fill:C.bg}),
+        h('rect',{x:x+10,y:y+10,width:44,height:44,fill:'none',stroke:rupColor,strokeWidth:1.4}),
+        h('path',{d:`M${x+32} ${y+22} L${x+42} ${y+32} L${x+32} ${y+42} L${x+22} ${y+32}Z`,fill:rupColor})))));
+}
+function patFill(id, op) {
+  return h('svg',{width:'100%',height:'100%',style:{display:'block',position:'absolute',inset:0}},
+    h('defs',null,h('pattern',{id,width:64,height:64,patternUnits:'userSpaceOnUse'},h('g',{fill:'none',stroke:C.raph,strokeWidth:1},tileKids()))),
+    h('rect',{width:'100%',height:'100%',fill:`url(#${id})`,opacity:op}));
+}
+function band(id, color, rupture, sw) {
+  return h('svg',{width:'100%',height:'100%',style:{display:'block'}},
+    h('defs',null,h('pattern',{id,width:32,height:16,patternUnits:'userSpaceOnUse'},h('g',{fill:'none',stroke:color,strokeWidth:sw||1.2},
+      h('path',{d:'M0 14 L8 2 L16 14 L24 2 L32 14'}),h('path',{d:'M8 10 L10 12 L8 14 L6 12 Z'})))),
+    h('rect',{width:'100%',height:'100%',fill:`url(#${id})`}),
+    rupture && h('rect',{x:'61%',y:3,width:22,height:10,fill:C.red}));
+}
+function bandV(id, color, sw) {
+  return h('svg',{width:'100%',height:'100%',style:{display:'block'}},
+    h('defs',null,h('pattern',{id,width:16,height:32,patternUnits:'userSpaceOnUse'},h('g',{fill:'none',stroke:color,strokeWidth:sw||1.2},
+      h('path',{d:'M14 0 L2 8 L14 16 L2 24 L14 32'}),h('path',{d:'M6 8 L4 10 L6 12 L8 10 Z'})))),
+    h('rect',{width:'100%',height:'100%',fill:`url(#${id})`}));
+}
+const K = {
+  logo: h('svg',{width:38,height:38,viewBox:'0 0 38 38','aria-hidden':true},
+    h('path',{d:'M19 1 L37 19 L19 37 L1 19Z',fill:C.surf,stroke:C.raph,strokeWidth:1.2}), h('path',{d:'M19 6 L32 19 L19 32 L6 19Z',fill:'none',stroke:C.ochre,strokeWidth:1}),
+    h('path',{d:'M29.5 8.5 L31 7 L32.5 8.5',fill:'none',stroke:C.red,strokeWidth:1.4}),
+    h('text',{x:19,y:23.2,textAnchor:'middle',fontFamily:'Bricolage Grotesque, sans-serif',fontWeight:800,fontSize:11,fill:C.raph},'JK')),
+  mark: h('svg',{width:14,height:14,viewBox:'0 0 14 14','aria-hidden':true},h('path',{d:'M7 .5 L13.5 7 L7 13.5 L.5 7Z',fill:'none',stroke:C.raph,strokeWidth:1}),h('path',{d:'M7 4 L10 7 L7 10 L4 7Z',fill:C.red})),
+  corner: h('svg',{width:22,height:22,viewBox:'0 0 22 22','aria-hidden':true,style:{display:'block'}},h('path',{d:'M1 16 V1 H16',fill:'none',stroke:C.ochre,strokeWidth:1.4}),h('path',{d:'M5 11 V5 H11',fill:'none',stroke:C.ochre,strokeWidth:1}),h('rect',{x:8,y:8,width:3,height:3,fill:C.red})),
+  cardFill: patFill('kb-card',.07),
+  band: band('kb-band','#5A4A3F',false), bandV: bandV('kb-bandv','#5A4A3F'), bandVRed: bandV('kb-bandvr',C.red,1.8), bandRed: band('kb-bandr',C.red,false,1.8), bandFooter: band('kb-bandf',C.ochre,true),
+  lock: h('svg',{width:12,height:13,viewBox:'0 0 12 13','aria-hidden':true},h('rect',{x:1,y:5.5,width:10,height:7,fill:C.red}),h('path',{d:'M3.2 5.5 V3.8 a2.8 2.8 0 0 1 5.6 0 V5.5',fill:'none',stroke:C.raph,strokeWidth:1.3})),
+  ecg: (()=>{ let p=''; for(let i=0;i<6;i++){const x=i*100; p+=`${x},30 ${x+30},30 ${x+38},24 ${x+44},30 ${x+52},30 ${x+56},38 ${x+60},6 ${x+64},46 ${x+68},30 `;} p+='600,30';
+    return h('svg',{viewBox:'0 0 600 52',width:'100%',height:64,preserveAspectRatio:'none',style:{display:'block'}},
+      h('polyline',{points:p,fill:'none',stroke:'#3A2E27',strokeWidth:1.5}),
+      h('polyline',{points:p,fill:'none',stroke:C.ember,strokeWidth:2,strokeDasharray:'160 440',style:{animation:'kecg 3.2s linear infinite'}})); })()
+};
+
+const P = {
+  hr: {
+    cat:'En entreprise', title:'Refonte de Talent Pro HR', conf:true, code:false,
+    lede:"Reconstruire de zéro une application RH, avec 5 niveaux de droits d'accès et des utilisateurs internationaux.",
+    meta:[['Entreprise','Walumo'],['Année','2026'],['Mon rôle','Lead Product Engineer'],['Durée','5 mois']],
+    techs:['Architecture','Next.js','Agile'],
+    diagCaption:"Schéma illustratif · architecture des 5 niveaux de droits d'accès",
+    s1k:'Le contexte', s1t:'Une application RH qui avait demandé 3 ans.',
+    s1p:["Talent Pro HR est une application RH. Sa version précédente avait demandé 3 ans de développement.","Chez Walumo, j'ai mené sa refonte en tant que Lead Product Engineer."],
+    s2k:'Le défi', s2t:"Tout reconstruire, sans repartir de l'existant.",
+    s2items:[["Architecture de zéro","Reconstruire l'architecture depuis une page blanche."],["5 niveaux de droits d'accès","Chaque utilisateur ne voit et ne fait que ce que son niveau autorise."],["Utilisateurs internationaux","Une même application, utilisée depuis plusieurs pays."]],
+    s3k:'Mon approche', s3t:'Quatre étapes, dans cet ordre.',
+    steps:[["Concevoir l'architecture","Poser le modèle de données et le système de droits avant la première fonctionnalité."],["Analyser le chemin critique","Identifier les dépendances qui fixent le délai et les traiter en premier."],["Livrer en micro-sprints Agile","Des incréments courts, testés et montrés régulièrement."],["Collaborer avec le Senior Product Manager","Arbitrer ensemble, au fil de l'eau, entre valeur produit et contraintes techniques."]],
+    s4k:'Un problème résolu', s4t:"Le flux d'hydratation de l'ATS, pour les utilisateurs internationaux.",
+    s5k:'Le résultat', next:'med'
+  },
+  med: {
+    cat:'IoT & HealthTech · Projet académique', title:'MedGuard', conf:false, code:true,
+    lede:"Un prototype de bracelet intelligent qui surveille des paramètres médicaux et les rend lisibles sur un tableau de bord.",
+    meta:[['Cadre','Projet académique'],['Formation',"Master en conception des systèmes d'information, UPN Kinshasa"],['Année','2025'],['Livrable','Prototype']],
+    techs:['Arduino','Capteurs','ThingsBoard','Wokwi','Proteus'],
+    diagCaption:'Schéma illustratif · bracelet → capteurs → Arduino → ThingsBoard',
+    s1k:'Le contexte', s1t:"Un projet de Master, entre l'IoT et la santé.",
+    s1p:["MedGuard est un projet académique réalisé dans le cadre de mon Master en conception des systèmes d'information à l'UPN Kinshasa, en 2025."],
+    s2k:"L'objectif", s2t:'Surveiller, transmettre, visualiser.',
+    s2items:[["Surveiller","Mesurer des paramètres médicaux grâce à des capteurs intégrés au bracelet."],["Transmettre","Faire remonter les mesures collectées par l'Arduino."],["Visualiser","Rendre les données lisibles sur un tableau de bord ThingsBoard."]],
+    s3k:"L'architecture", s3t:'Du poignet au tableau de bord.',
+    steps:[["Bracelet","Le support porté au poignet."],["Capteurs","Mesurent les paramètres médicaux."],["Arduino","Collecte les mesures et les transmet."],["ThingsBoard","Visualise les données sur un tableau de bord."]],
+    s4k:'Le prototypage', s4t:'Simuler le circuit avant de le construire.',
+    s5k:'Les résultats du prototype', next:'hr'
+  }
+};
+
+class Component extends DCLogic {
+  state = { v:null, seen:{}, nextHover:false, mobile:false, menu:false };
+  glowRef = React.createRef(); cleanup = [];
+
+  variant() { return this.state.v || this.props.project || 'hr'; }
+
+  componentDidMount() {
+    const reduced = this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches || this.props.motion === false;
+    const onResize = () => { const w = window.innerWidth, m = w < 700 || (window.matchMedia('(pointer: coarse)').matches && w < 1080); if (m !== this.state.mobile) this.setState({ mobile:m }); };
+    onResize(); window.addEventListener('resize', onResize); this.cleanup.push(() => window.removeEventListener('resize', onResize));
+    const qs = new URLSearchParams(window.location.search);
+    if (qs.get('menu') === '1') this.setState({ menu:true });
+    if (P[qs.get('p')]) this.setState({ v:qs.get('p') });
+    const onKey = e => { if (e.key === 'Escape' && this.state.menu) this.setMenu(false); };
+    window.addEventListener('keydown', onKey); this.cleanup.push(() => window.removeEventListener('keydown', onKey));
+    let mx = window.innerWidth * .7, my = window.innerHeight * .35, raf = 0;
+    const paint = () => { raf = 0; const r = document.documentElement.style; r.setProperty('--mx', mx+'px'); r.setProperty('--my', my+'px'); const g = this.glowRef.current; if (g) g.style.transform = `translate3d(${mx-360}px,${my-360}px,0)`; };
+    paint();
+    if (!reduced) { const move = e => { if (this.state.mobile) return; mx = e.clientX; my = e.clientY; if (!raf) raf = requestAnimationFrame(paint); }; window.addEventListener('pointermove', move, { passive:true }); this.cleanup.push(() => window.removeEventListener('pointermove', move)); }
+    this.observe();
+    if (!reduced) {
+      const els = Array.from(document.querySelectorAll('[data-reveal]'));
+      const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'none'; io.unobserve(e.target); } }), { threshold:.08, rootMargin:'0px 0px -40px 0px' });
+      els.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight) return; el.style.opacity = 0; el.style.transform = 'translateY(18px)'; el.style.transition = 'opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1)'; io.observe(el); });
+      this.cleanup.push(() => io.disconnect());
+    }
+  }
+  observe() {
+    if (this.io) this.io.disconnect();
+    const els = Array.from(document.querySelectorAll('[data-seen]'));
+    if (this.reduced) { const all = {}; els.forEach(el => all[el.getAttribute('data-seen')] = true); this.setState({ seen:all }); return; }
+    this.io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const k = e.target.getAttribute('data-seen'); this.io.unobserve(e.target); this.setState(s => ({ seen:Object.assign({}, s.seen, { [k]:true }) })); } }), { threshold:.25 });
+    els.forEach(el => this.io.observe(el));
+  }
+  componentDidUpdate(pp, ps) {
+    const prev = ps.v || pp.project || 'hr';
+    if (prev !== this.variant()) this.observe();
+  }
+  componentWillUnmount() { this.cleanup.forEach(f => f()); if (this.io) this.io.disconnect(); }
+
+  setMenu(open) { this.setState({ menu:open }); document.body.style.overflow = open ? 'hidden' : ''; }
+  switchTo(v) { document.body.style.overflow = ''; window.scrollTo({ top:0, behavior:this.reduced ? 'auto' : 'smooth' }); this.setState({ v, seen:{}, nextHover:false, menu:false }); }
+
+  renderVals() {
+    const v = this.variant(), p = P[v], s = this.state, seen = s.seen, isHR = v === 'hr';
+    const nx = P[p.next], stepsOn = !!seen.steps;
+    return {
+      motionAttr:this.props.motion === false ? 'off' : 'on',
+      menu:s.menu, px:s.mobile ? '20px' : '32px', bandPad:s.mobile ? '28px 22px' : '56px', diagPad:s.mobile ? '28px 20px' : '56px',
+      deskDisplay:s.mobile ? 'none' : 'flex', burgerDisplay:s.mobile ? 'flex' : 'none', glowDisplay:s.mobile ? 'none' : 'block',
+      openMenu:() => this.setMenu(true), closeMenu:() => this.setMenu(false),
+      menuNav:[['Accueil','Portfolio Josue Kristo.dc.html'],['Toutes les réalisations','Portfolio Josue Kristo.dc.html#work'],['Parcours','Portfolio Josue Kristo.dc.html#journey'],['Contact','Portfolio Josue Kristo.dc.html#contact']].map(([label,href],i) => ({ label, href, n:'0'+(i+1) })),
+      flowDir:s.mobile ? 'column' : 'row', linkW:s.mobile ? '1px' : '40px', linkH:s.mobile ? '28px' : '1px', linkML:s.mobile ? '28px' : '0', linkAlign:s.mobile ? 'flex-start' : 'center', flowAnim:s.mobile ? 'kflowv' : 'kflow',
+      sb:s.mobile ? { top:'18px', bottom:'18px', left:'18px', right:'auto', w:'16px', h:'auto', el:K.bandV, red:K.bandVRed, wipe:'kwipev' } : { top:'18px', bottom:'auto', left:'26px', right:'26px', w:'auto', h:'16px', el:K.band, red:K.bandRed, wipe:'kwipe' },
+      stepDir:s.mobile ? 'row' : 'column', stepGap:s.mobile ? '18px' : '16px', stepPadTop:s.mobile ? '12px' : '4px',
+      kBg:bgSvg('kb-bg', C.raph, this.props.patternOpacity ?? .05, C.ochre, true),
+      kBgReveal:bgSvg('kb-rv', C.red, Math.min(1, (this.props.patternOpacity ?? .05) * 7), C.ember, false),
+      kGlow:h('div',{ref:this.glowRef,style:{display:s.mobile ? 'none' : 'block',position:'absolute',top:0,left:0,width:720,height:720,borderRadius:'50%',background:`radial-gradient(closest-side, rgba(194,65,45,${this.props.glow ?? .22}), rgba(194,65,45,0))`,willChange:'transform'}}),
+      kLogo:K.logo, kMark:K.mark, kCorner:K.corner, kCardFill:K.cardFill, kBand:K.band, kBandRed:K.bandRed, kBandFooter:K.bandFooter, kLock:K.lock, kEcg:K.ecg,
+      variants:[['hr','Talent Pro HR'],['med','MedGuard']].map(([k,label]) => ({ label, active:v === k, bg:v === k ? C.red : 'transparent', color:v === k ? '#FFF7EC' : C.mute, onClick:() => this.switchTo(k) })),
+      p:{ cat:p.cat, title:p.title, lede:p.lede, conf:p.conf, code:p.code, meta:p.meta.map(([k,val]) => ({ k, v:val })), techs:p.techs, diagCaption:p.diagCaption,
+        s1k:p.s1k, s1t:p.s1t, s1p:p.s1p, s2k:p.s2k, s2t:p.s2t, s2items:p.s2items.map(([t,d],i) => ({ n:'0'+(i+1), t, d })), s3k:p.s3k, s3t:p.s3t, s4k:p.s4k, s4t:p.s4t, s5k:p.s5k },
+      isHR, isMed:!isHR,
+      showHRDiag:isHR && !!seen.diag, showMedDiag:!isHR && !!seen.diag,
+      hrFlow:[["Utilisateurs internationaux","plusieurs pays"],["Application","Next.js"],["Contrôle d'accès","5 niveaux de droits"]].map(([t,sub],i) => ({ t, s:sub, d:(i*0.25)+'s', link:i < 2, border:i === 2 ? C.red : '#3A2E27', dot:i === 2 ? C.red : C.ochre })),
+      hrRings:[340,280,220,160,100].map((px,i) => ({ size:(px/Math.SQRT2/340*100).toFixed(1)+'%', border:i === 2 ? C.red : (i === 4 ? C.raph : '#5A4A3F'), bg:i === 4 ? C.surf : 'transparent', d:(0.7 + i*0.14)+'s' })),
+      hrLegend:[1,2,3,4,5].map((n,i) => ({ t:'Niveau '+n, border:i === 2 ? C.red : '#5A4A3F', bg:i === 2 ? C.red : 'transparent', d:(0.9 + i*0.12)+'s' })),
+      medFlow:p.steps.map(([t,sub],i) => ({ n:'0'+(i+1), t, s:sub, d:(i*0.22)+'s', link:i < 3, border:i === 3 ? C.red : '#3A2E27' })),
+      stepsSeen:stepsOn,
+      steps:p.steps.map(([t,d2],i) => ({ n:'0'+(i+1), t, d2, bg:stepsOn ? (i === p.steps.length-1 ? C.red : C.surf) : C.bg, border:stepsOn ? (i === p.steps.length-1 ? C.red : C.ember) : '#5A4A3F', d:(0.3 + i*0.5)+'s' })),
+      hrFix:[
+        { k:'Avant', mid:'Hydratation', end:'International', border:C.line, labelColor:C.mute, midBorder:C.red, line2:'transparent', dash:'1px dashed #C2412D',
+          d:"Pour les utilisateurs internationaux, le flux d'hydratation de l'ATS ne se déroulait pas correctement." },
+        { k:'Après', mid:'Hydratation', end:'International', border:C.red, labelColor:C.ember, midBorder:'#3A2E27', line2:C.ember, dash:'0',
+          d:"J'ai corrigé ce flux : l'ATS s'hydrate désormais correctement pour les utilisateurs internationaux." }
+      ],
+      medTools:[{ t:'Wokwi', d:'Simulation du montage électronique et du code Arduino.' },{ t:'Proteus', d:'Conception et simulation du circuit.' }],
+      resultSeen:!!seen.result,
+      medResults:[{ t:'Mesure', d:'Les capteurs relevaient des paramètres médicaux.' },{ t:'Transmission', d:"L'Arduino transmettait les données collectées." },{ t:'Visualisation', d:'Les données étaient affichées sur le tableau de bord ThingsBoard.' }],
+      next:{ cat:nx.cat, title:nx.title },
+      goNext:() => this.switchTo(p.next),
+      nextEnter:() => this.setState({ nextHover:true }), nextLeave:() => this.setState({ nextHover:false }),
+      nextBorder:s.nextHover ? C.red : C.line, nextBg:s.nextHover ? C.red : 'transparent', nextX:s.nextHover ? '10px' : '0px'
+    };
+  }
+}
+</script>
+</body>
+</html>

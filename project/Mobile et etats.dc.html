@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B0907;color:#EADFC8;font-family:'Source Sans 3',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#E0573F;text-decoration:none}
+a:hover{color:#EADFC8}
+</style>
+</helmet>
+<section id="1" style="padding:64px;display:flex;flex-direction:column;gap:40px">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#E0573F">Mobile · 390 px</span>
+    <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:48px;font-weight:800;letter-spacing:-.03em">Accueil et étude de cas sur mobile</h1>
+    <p style="margin:0;font-size:18px;color:#A89A86;max-width:48em">Pages réelles, chargées à 390 px de large. On peut les faire défiler et cliquer dedans. Sur mobile, la lueur qui suit le curseur est coupée ; le motif continue de respirer.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:40px">
+    <sc-for list="{{ frames }}" as="f" hint-placeholder-count="6">
+      <figure id="{{ f.id }}" style="margin:0;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 8px;background:#C2412D;color:#FFF7EC">{{ f.id }}</span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:700">{{ f.title }}</span>
+        </div>
+        <div style="width:410px;padding:10px;background:#1A1512;border:1px solid #2E2520;border-radius:44px">
+          <iframe src="{{ f.src }}" title="{{ f.title }}" loading="lazy" style="display:block;width:390px;height:844px;border:0;border-radius:34px;background:#0F0C0A"></iframe>
+        </div>
+        <figcaption style="max-width:410px;font-size:15px;line-height:1.5;color:#A89A86">{{ f.note }}</figcaption>
+      </figure>
+    </sc-for>
+  </div>
+</section>
+
+<section id="2" style="padding:64px;display:flex;flex-direction:column;gap:40px;border-top:1px solid #2E2520">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#E0573F">États interactifs</span>
+    <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:48px;font-weight:800;letter-spacing:-.03em">Survol, focus, actif</h2>
+    <p style="margin:0;font-size:18px;color:#A89A86;max-width:48em">Focus clavier : contour Rouge braise de 2 px, décalé de 3 px, sur tous les éléments interactifs. Au survol, le bouton principal passe en Rouge braise avec un texte Noir charbon pour garder le contraste AA.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:220px repeat(3,minmax(0,260px));gap:0;background:#0F0C0A;border:1px solid #2E2520;align-self:flex-start">
+    <div style="padding:18px 22px;border-bottom:1px solid #2E2520"></div>
+    <div style="padding:18px 22px;border-bottom:1px solid #2E2520;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A89A86">PAR DÉFAUT</div>
+    <div style="padding:18px 22px;border-bottom:1px solid #2E2520;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A89A86">SURVOL</div>
+    <div style="padding:18px 22px;border-bottom:1px solid #2E2520;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A89A86">FOCUS CLAVIER</div>
+
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520;font-weight:600">Bouton principal</div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="display:inline-flex;gap:10px;background:#C2412D;color:#FFF7EC;border:1px solid #C2412D;padding:14px 22px;font-weight:600">Parlons-en <span>→</span></span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="display:inline-flex;gap:10px;background:#E0573F;color:#0F0C0A;border:1px solid #E0573F;padding:14px 22px;font-weight:600">Parlons-en <span>→</span></span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="display:inline-flex;gap:10px;background:#C2412D;color:#FFF7EC;border:1px solid #C2412D;padding:14px 22px;font-weight:600;outline:2px solid #E0573F;outline-offset:3px">Parlons-en <span>→</span></span></div>
+
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520;font-weight:600">Bouton contour</div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="display:inline-flex;gap:10px;color:#EADFC8;border:1px solid #5A4A3F;padding:14px 22px;font-weight:600">Mon CV <span>↓</span></span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="display:inline-flex;gap:10px;color:#E0573F;border:1px solid #E0573F;padding:14px 22px;font-weight:600">Mon CV <span>↓</span></span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="display:inline-flex;gap:10px;color:#EADFC8;border:1px solid #5A4A3F;padding:14px 22px;font-weight:600;outline:2px solid #E0573F;outline-offset:3px">Mon CV <span>↓</span></span></div>
+
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520;font-weight:600">Lien texte</div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="color:#E0573F;font-weight:600">Voir l'étude de cas →</span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="color:#EADFC8;font-weight:600">Voir l'étude de cas <span style="display:inline-block;transform:translateX(6px);color:#E0573F">→</span></span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="color:#E0573F;font-weight:600;outline:2px solid #E0573F;outline-offset:3px">Voir l'étude de cas →</span></div>
+
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520;font-weight:600">Lien de navigation</div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="color:#A89A86;font-weight:500">Réalisations</span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="color:#EADFC8;font-weight:500">Réalisations</span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="color:#A89A86;font-weight:500;outline:2px solid #E0573F;outline-offset:3px;padding:2px 4px">Réalisations</span></div>
+
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520;font-weight:600">Icône sociale</div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid #2E2520"><span style="width:18px;height:18px;background:center/contain no-repeat url(https://cdn.simpleicons.org/github/EADFC8)"></span></span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid #E0573F"><span style="width:18px;height:18px;background:center/contain no-repeat url(https://cdn.simpleicons.org/github/EADFC8)"></span></span></div>
+    <div style="padding:28px 22px;border-bottom:1px solid #2E2520"><span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid #2E2520;outline:2px solid #E0573F;outline-offset:3px"><span style="width:18px;height:18px;background:center/contain no-repeat url(https://cdn.simpleicons.org/github/EADFC8)"></span></span></div>
+
+    <div style="padding:28px 22px;font-weight:600">Champ de formulaire</div>
+    <div style="padding:28px 22px"><span style="display:block;background:#0F0C0A;border:1px solid #2E2520;padding:13px 14px;color:#A89A86">Votre nom</span></div>
+    <div style="padding:28px 22px"><span style="display:block;background:#0F0C0A;border:1px solid #5A4A3F;padding:13px 14px;color:#A89A86">Votre nom</span></div>
+    <div style="padding:28px 22px"><span style="display:block;background:#0F0C0A;border:1px solid #E0573F;padding:13px 14px;color:#EADFC8">Josué|</span></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:700">Filtre des réalisations</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;padding:24px;background:#0F0C0A;border:1px solid #2E2520;align-self:flex-start">
+      <span style="padding:9px 14px;font-size:15px;font-weight:600;border:1px solid #2E2520;color:#EADFC8">Tout</span>
+      <span style="padding:9px 14px;font-size:15px;font-weight:600;border:1px solid #C2412D;background:#C2412D;color:#FFF7EC">IA &amp; Machine Learning</span>
+      <span style="padding:9px 14px;font-size:15px;font-weight:600;border:1px solid #5A4A3F;color:#EADFC8">En entreprise</span>
+      <span style="padding:9px 14px;font-size:15px;font-weight:600;border:1px solid #2E2520;color:#EADFC8;outline:2px solid #E0573F;outline-offset:3px">IoT &amp; HealthTech</span>
+      <span style="padding:9px 14px;font-size:15px;font-weight:600;border:1px solid #2E2520;color:#EADFC8">Produits personnels</span>
+    </div>
+    <div style="display:flex;gap:28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#A89A86">
+      <span>ACTIF · IA &amp; Machine Learning</span><span>SURVOL · En entreprise</span><span>FOCUS · IoT &amp; HealthTech</span>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:700">Cartes projet : les deux états</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+      <sc-for list="{{ cards }}" as="p" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:12px;width:340px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;color:#A89A86">{{ p.state }}</span>
+          <article style="position:relative;background:#1A1512;border:1px solid {{ p.border }};box-shadow:{{ p.shadow }};display:flex;flex-direction:column">
+            <div style="position:relative;height:150px;overflow:hidden;border-bottom:1px solid #2E2520;background:#0F0C0A">
+              <div aria-hidden="true" style="position:absolute;inset:0;transform:scale({{ p.scale }})">
+                {{ kCardFill }}
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 18px">
+                  <sc-for list="{{ p.vis }}" as="v" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center"><span style="width:{{ v.gap }};height:1px;background:#5A4A3F"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 8px;background:#1A1512;border:1px solid {{ v.border }};white-space:nowrap">{{ v.label }}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+              <sc-if value="{{ p.conf }}" hint-placeholder-val="{{ false }}">
+                <span style="position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:6px;background:rgba(15,12,10,.85);border:1px solid #2E2520;padding:4px 8px;font-size:12px;font-weight:600">{{ kLock }}Confidentiel</span>
+              </sc-if>
+            </div>
+            <div style="padding:20px;display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#E0573F">{{ p.cat }}</div>
+              <h4 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:700;line-height:1.2">{{ p.title }}</h4>
+              <p style="margin:0;font-size:15px;line-height:1.5">{{ p.desc }}</p>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{ p.tags }}" as="tg" hint-placeholder-count="3"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:3px 7px;border:1px solid #2E2520;color:#A89A86">{{ tg }}</span></sc-for>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+                <span style="display:inline-flex;align-items:center;gap:8px;border:1px solid #5A4A3F;padding:10px 14px;font-weight:600;font-size:14px">Étude de cas <span style="color:#E0573F;display:inline-block;transform:translateX({{ p.arrowX }})">→</span></span>
+                <sc-if value="{{ p.code }}" hint-placeholder-val="{{ false }}">
+                  <span style="display:inline-flex;align-items:center;gap:8px;border:1px solid #2E2520;padding:10px 14px;font-weight:600;font-size:14px"><span style="width:15px;height:15px;background:center/contain no-repeat url(https://cdn.simpleicons.org/github/EADFC8)"></span>Code source</span>
+                </sc-if>
+              </div>
+            </div>
+          </article>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const h = React.createElement;
+const tile = [
+  h('path',{key:1,d:'M32 2 L62 32 L32 62 L2 32 Z'}), h('path',{key:2,d:'M32 14 L50 32 L32 50 L14 32 Z'}), h('path',{key:3,d:'M32 25 L39 32 L32 39 L25 32 Z'}),
+  h('path',{key:4,d:'M0 10 H5 V5 H10 V0'}), h('path',{key:5,d:'M54 0 V5 H59 V10 H64'}), h('path',{key:6,d:'M0 54 H5 V59 H10 V64'}), h('path',{key:7,d:'M54 64 V59 H59 V54 H64'})
+];
+const kCardFill = h('svg',{width:'100%',height:'100%',style:{display:'block',position:'absolute',inset:0}},
+  h('defs',null,h('pattern',{id:'kb-card',width:64,height:64,patternUnits:'userSpaceOnUse'},h('g',{fill:'none',stroke:'#EADFC8',strokeWidth:1},tile))),
+  h('rect',{width:'100%',height:'100%',fill:'url(#kb-card)',opacity:.07}));
+const kLock = h('svg',{width:12,height:13,viewBox:'0 0 12 13'},h('rect',{x:1,y:5.5,width:10,height:7,fill:'#C2412D'}),h('path',{d:'M3.2 5.5 V3.8 a2.8 2.8 0 0 1 5.6 0 V5.5',fill:'none',stroke:'#EADFC8',strokeWidth:1.3}));
+const P = 'Portfolio%20Josue%20Kristo.dc.html', E = 'Etude%20de%20cas.dc.html';
+const vis = arr => arr.map((label,i) => ({ label, gap:i ? '18px' : '0px', border:i === 1 ? '#C2412D' : '#3A2E27' }));
+
+class Component extends DCLogic {
+  renderVals() {
+    const off = { border:'#2E2520', shadow:'none', scale:1, arrowX:'0px' };
+    const on = { border:'#C2412D', shadow:'0 0 0 1px rgba(194,65,45,.35), 0 20px 60px -20px rgba(194,65,45,.35)', scale:1.045, arrowX:'6px' };
+    const cv = { cat:'IA & Machine Learning', title:"Extraction d'informations depuis des CV", desc:'Analyse automatique de CV pour en extraire des informations structurées.', tags:['NLP','Machine Learning'], code:true, conf:false, vis:vis(['CV','NLP','Champs']) };
+    const hr = { cat:'En entreprise', title:'Refonte de Talent Pro HR', desc:"Architecture reconstruite de zéro, 5 niveaux de droits d'accès.", tags:['Architecture','Next.js','Agile'], code:false, conf:true, vis:vis(['N1','N3','N5']) };
+    return {
+      kCardFill, kLock,
+      frames:[
+        { id:'1a', title:'Accueil · hero', src:P, note:'Le cadre en losange reste dans le hero, sous le texte. Deux badges flottants seulement : Next.js et IA générative.' },
+        { id:'1b', title:'Menu plein écran', src:P + '?menu=1', note:'Panneau sur fond Noir charbon. Le sélecteur FR / EN est en haut, avec des zones tactiles de 44 px minimum.' },
+        { id:'1c', title:'Compétences', src:P + '#skills', note:'Les onglets deviennent une rangée horizontale qu’on fait défiler. Les tuiles passent sur deux colonnes.' },
+        { id:'1d', title:'Parcours', src:P + '#journey', note:'La colonne-motif reste à gauche et se remplit de rouge au fil du défilement.' },
+        { id:'1e', title:'Étude de cas · Talent Pro HR', src:E, note:'Schéma des 5 niveaux mis à l’échelle. Les étapes de l’approche s’empilent, reliées par une bande-motif verticale.' },
+        { id:'1f', title:'Étude de cas · MedGuard', src:E + '?p=med', note:'La chaîne bracelet → capteurs → Arduino → ThingsBoard passe à la verticale. Le bouton « Code source » remplace la pastille.' }
+      ],
+      cards:[
+        Object.assign({ state:'CODE SOURCE · PAR DÉFAUT' }, cv, off),
+        Object.assign({ state:'CODE SOURCE · SURVOL' }, cv, on),
+        Object.assign({ state:'CONFIDENTIEL · PAR DÉFAUT' }, hr, off),
+        Object.assign({ state:'CONFIDENTIEL · SURVOL' }, hr, on)
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
