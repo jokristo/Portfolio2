@@ -94,12 +94,6 @@ export const ColumnBase = () => (
     <ColKids />
   </PatternFill>
 );
-export const ColumnRed = () => (
-  <PatternFill w={24} h={28} stroke={C.red} opacity={1} strokeWidth={1.6}>
-    <ColKids />
-  </PatternFill>
-);
-
 /* ── Horizontal zig-zag band (method line, footer strip) ──────────────── */
 export function Band({ color, rupture }: { color: string; rupture?: boolean }) {
   const id = safeId(useId());
@@ -228,6 +222,6 @@ const ECG_POINTS = (() => {
 export const Ecg = () => (
   <svg viewBox="0 0 600 52" width="100%" height={52} preserveAspectRatio="none" style={{ display: "block" }}>
     <polyline points={ECG_POINTS} fill="none" stroke="#3A2E27" strokeWidth={1.5} />
-    <polyline points={ECG_POINTS} fill="none" stroke={C.ember} strokeWidth={2} strokeDasharray="160 440" className="kecg" />
+    <polyline points={ECG_POINTS} fill="none" stroke={C.ember} strokeWidth={2} strokeDasharray="160 440" strokeDashoffset={-230} />
   </svg>
 );

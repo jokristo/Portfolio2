@@ -1,28 +1,34 @@
 # Josué Kristo — Portfolio
 
-Personal portfolio for Josué Kristo, Senior Product Engineer & Technical Project Manager. Bilingual (FR by default, EN via the header toggle or `?lang=en`). Built with Next.js (App Router, static export) and implemented from the Claude Design handoff in `project/` (see `project/HANDOFF.md` and `chats/`).
+Personal portfolio for Josué Kristo, Senior Product Engineer & Technical Project Manager. Live at https://kristo.vercel.app. Bilingual (FR by default, EN via the header toggle or `?lang=en`). Next.js App Router, exported as a static site. The original Claude Design handoff is in `project/` (see `project/HANDOFF.md` and `chats/`).
 
 ## Develop
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # static site in out/
-npm run lint     # type-check
+npm run dev      # http://localhost:3000 (case-study TODO notes are visible here)
+npm run lint     # ESLint (next/core-web-vitals + TypeScript) and tsc
+npm run build    # static site in out/, then the dead-link check
 ```
 
-## Structure
+`npm run build` fails if any page links to `#`, an empty or `undefined` URL, an anchor with no matching id, or an internal path that is not in the export (`scripts/check-links.mjs`).
 
-- `src/lib/content.ts`: all copy (FR/EN), projects, skills, timeline. Edit content here.
-- `src/components/kuba.tsx`: the Kuba motif (background field, woven portrait frame, bands, corners, logo).
-- `src/components/sections.tsx`: page sections. `Portfolio.tsx` holds the shell (background, header, mobile menu).
-- `src/app/globals.css`: design tokens, layout, hover/focus states, breakpoints and animations. Everything is disabled under `prefers-reduced-motion`.
-- `src/lib/icons.ts`: technology logos, inlined from `simple-icons` (CC0), so the page loads nothing from a CDN.
-- `public/portrait.webp`: the portrait, taken from the design's image slot.
+## Where things live
 
-## Still to wire up
+- `src/content/profile.ts`: email, GitHub, LinkedIn, CV path. An empty value hides every link that uses it.
+- `src/content/copy.ts`: interface text, FR and EN.
+- `src/content/data.ts`: services, skills (with their icon), the three case-study projects, other projects, method, timeline, certifications.
+- `src/content/case-studies.ts`: case-study pages. Missing facts are `todo` fields.
+- `src/components/SiteShell.tsx`: background, header, mobile menu, footer (shared by every page).
+- `src/components/sections.tsx`: home page sections. `CaseStudyPage.tsx`: `/realisations/[slug]`.
+- `src/components/icons.tsx`: Simple Icons and Font Awesome 6 (react-icons), Lucide for interface icons.
+- `src/components/kuba.tsx`: the Kuba motif (background field, woven portrait frame, bands, corners).
+- `src/app/globals.css`: colour, spacing and type tokens, layout, states, breakpoints (700px and 1080px).
 
-- `LINKEDIN` and `CV_URL` in `src/lib/content.ts` are placeholders (`#`).
-- The "Voir l'étude de cas" buttons link to `#` until the case-study pages (`project/Etude de cas.dc.html`) are built.
-- The CV-extraction project's "Code source" button points to the GitHub profile; set the exact repository in `PROJECTS`.
-- Contact form: set `NEXT_PUBLIC_CONTACT_ENDPOINT` (e.g. a Formspree URL accepting JSON) to receive messages. Without it, the form opens the visitor's mail client with the message pre-filled.
+## To complete
+
+- **CV:** add a public PDF at `public/cv/Josue-Kristo-CV.pdf` (no phone number, references or family status). The download button appears automatically at the next build.
+- **Case studies:** fill the `todo` fields in `src/content/case-studies.ts`.
+- **Repositories:** set `repoUrl` for MedGuard and the CV extraction project in `src/content/data.ts` if the code is public.
+- **Other projects:** missing years (AI and personal projects) and technologies in `OTHER_PROJECTS`.
+- **Contact form:** set `NEXT_PUBLIC_CONTACT_ENDPOINT` (a Formspree URL, or any endpoint accepting JSON) to receive messages directly. Without it, the form opens the visitor's email app with the message pre-filled.

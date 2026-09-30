@@ -14,7 +14,6 @@ const PATTERN_OPACITY = 0.05;
 
 /** Background, header, footer and language context shared by every page. */
 export function SiteShell({ home = false, children }: { home?: boolean; children: ReactNode }) {
-  useReveal();
   return (
     <LangProvider>
       <div id="top" className="page">
@@ -31,29 +30,6 @@ export function SiteShell({ home = false, children }: { home?: boolean; children
 function useSectionHref(home: boolean) {
   const href = useHref();
   return (id: string) => (home ? `#${id}` : `${href("/")}#${id}`);
-}
-
-/* Fade + short rise for [data-reveal] blocks that start below the fold. */
-function useReveal() {
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          e.target.classList.remove("reveal-pending");
-          io.unobserve(e.target);
-        }),
-      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
-    );
-    els.forEach((el) => {
-      if (el.getBoundingClientRect().top < window.innerHeight) return;
-      el.classList.add("reveal-pending", "reveal-anim");
-      io.observe(el);
-    });
-    return () => io.disconnect();
-  }, []);
 }
 
 /* ── Drifting, breathing Kuba field + cursor glow that reveals it in red ── */
